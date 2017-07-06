@@ -1,0 +1,6 @@
+[
+		{"id":"1","pId":"0","name":"菜单管理","path":"http://www.baidu.com"},
+		{"id":"2","pId":"0","name":"权限管理","path":"http://www.baidu.com"},
+		{"id":"3","pId":"0","name":"角色管理","path":"http://www.baidu.com"},
+		{"id":"4","pId":"0","name":"用户管理","path":"http://www.baidu.com"}
+]

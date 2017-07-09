@@ -48,6 +48,33 @@
 					$("#grid").datagrid("load",conditions);
 					$("#searchWindow").window('close');
 				});
+				
+				// 实现定区列表的左右移动选择
+			    // 将左边没有关联的添加到右边
+			    $("#toRight").on("click", function(){
+			    	var selections = $("#noassociationSelect option:selected");
+			    	$("#associationSelect").append($(selections));
+			    });
+			    // 将右边已经关联的选项添加到左边
+			    $("#toLeft").on("click", function(){
+			    	var selections = $("#associationSelect option:selected");
+			    	$("#noassociationSelect").append($(selections));
+			    });
+			    
+			    // 提交表单,将要绑定的定区id提交的服务器
+			    $("#associationBtn").on("click", function(){
+			    	// 将要关联的客户的option属性设置成selected
+			    	$("#associationSelect option").prop("selected","selected");
+			    	// 提交表单
+			    	$("#customerForm").submit();
+			    });
+		    
+		    	// 给关联按钮添加点击时间
+		    	$("#associationCourierBtn").on("click", function(){
+		    		$("#courierForm").submit();
+		    		// 关闭窗口
+		    		$("#courierWindow").window('close');
+		    	});
 			});
 			
 			/*将form表单的数据转换成json数据格式的方法*/
@@ -69,6 +96,7 @@
 		        return serializeObj;  
 		    };
 		    
+		    
 			// 工具栏
 			var toolbar=[{
 				id:'but-search',
@@ -86,7 +114,7 @@
 				}
 			},{
 				id:'but-edit',
-				iconCls:'icon-eidt',
+				iconCls:'icon-edit',
 				text:'修改',
 				handler:function(){
 					var selections = $("#grid").datagrid('getSelections');
@@ -131,14 +159,95 @@
 				iconCls:'icon-sum',
 				text:'关联客户',
 				handler:function(){
-					
+					var selections = $("#grid").datagrid("getSelections");
+					if(selections.length == 1){
+						// 将定区的id保存到表单中
+						$("#fixedAreaId").val(selections[0].id);
+						// 先将上次的结果清空
+						$("#noassociationSelect").empty();
+						
+						// 打开窗口
+						$("#customerWindow").window("open");
+						// 添加一个进度条
+						$.messager.progress({
+							title:"提示",
+							msg:"正在加载...",
+							interval:300
+						});
+						
+						// 先将上次的结果清空
+						$("#associationSelect").empty();
+						
+						// 发送异步请求到数据库中去查询所有的未关联的客户
+						$.ajax({
+							type:'post',
+							url:'../../findNoAssociationCustomer.action',
+							success:function(noAssociation){
+								// 遍历响应的数据拼接option，添加到select中
+								var options = "";
+								$(noAssociation).each(function(i,val){
+									options += "<option value="+val.id+">"+val.username+"("+val.address+")</option>"
+								});
+								$("#noassociationSelect").append(options);
+							}
+						});
+						
+						// 发送异步请求到数据库中去查询所有的已经关联到该定区的客户
+						$.ajax({
+							type:'post',
+							url:'../../findHasAssociationCustomer.action?id='+selections[0].id,
+							success:function(association){
+								// 遍历响应的数据拼接option，添加到select中
+								var options = "";
+								$(association).each(function(i,val){
+									options += "<option value="+val.id+">"+val.username+"("+val.address+")</option>"
+								});
+								$("#associationSelect").append(options);
+								$.messager.progress('close');
+							}
+						});
+					}else{
+						if(selections.length == 0){
+							$.messager.alert("提示", "没有选择任何记录！","warning");
+						}else{
+							$.messager.alert("提示", "一次只能选择一条记录进行操作！","warning");
+						}
+					}
 				}
 			},{
 				id:'but-courier',
 				iconCls:'icon-sum',
 				text:'关联快递员',
 				handler:function(){
-					
+					var selections = $("#grid").datagrid('getSelections');
+					if(selections.length == 1){
+						// 将选中的定区id保存到表单的隐藏域中
+						$("#courierFixedAreaId").val(selections[0].id);
+						
+						// 打开窗口
+						$("#courierWindow").window('open');
+						
+						// 关联取派员
+						$("#courierId").combobox({
+							url:'../../associationCourier.action', 
+							valueField:'id', 
+							textField:'name' 
+						});
+						
+						// 关联取派时间
+						$("#takeTimeId").combobox({
+							url:'../../associationTakeTime.action', 
+							valueField:'id', 
+							textField:'name' 
+						});
+						
+					}else{
+						if(selections.length == 0){
+							$.messager.alert("提示", "没有选择任何记录！","warning");
+						}else{
+							$.messager.alert("提示", "一次只能选择一条记录进行操作！","warning");
+						}
+					}
 				}
 			}];
 			
@@ -227,7 +336,7 @@
 						<tr>
 							<td>定区名称</td>
 							<td>
-								<input type="text" name="name" class="easyui-validatebox" required="true" />
+								<input type="text" name="fixedAreaName" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
@@ -284,6 +393,72 @@
 						</tr>
 						<tr>
 							<td colspan="2"><a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		
+		<!-- 关联客户窗口 -->
+		<div class="easyui-window" title="关联客户窗口" id="customerWindow" modal="true"
+			collapsible="false" closed="true" minimizable="false" maximizable="false" style="top:20px;left:200px;width: 600px;height: 300px;">
+			<div style="overflow:auto;padding:5px;" border="false">
+				<form id="customerForm" action="../../addCustomerToFixedArea.action" method="post">
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="3">关联客户</td>
+						</tr>
+						<tr>
+							<td>
+								未关联定区客户列表 <br />
+								<select id="noassociationSelect" multiple="multiple" size="10" style="width:200px;"></select>
+							</td>
+							<td>
+								<input type="button" value="》》" id="toRight">
+								<br/>
+								<input type="button" value="《《" id="toLeft">
+								<!--隐藏字段用户存放定区的id-->
+								<input type="hidden" name="id" id="fixedAreaId"> 
+							</td>
+							<td>
+								已关联定区客户列表 <br />
+								<select id="associationSelect" name="customerIds" multiple="multiple" size="10" style="width:200px;"></select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"><a id="associationBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">关联客户</a> </td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		
+		<!-- 关联快递员窗口 -->
+		<div class="easyui-window" title="关联快递员窗口" id="courierWindow" modal="true"
+			collapsible="false" closed="true" minimizable="false" maximizable="false" style="top:20px;left:200px;width: 700px;height: 300px;">
+			<div style="overflow:auto;padding:5px;" border="false">
+				<form id="courierForm" 
+					action="../../fixedArea_associationCourierToFixedArea.action" method="post">
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="2">关联快递员</td>
+						</tr> 
+						<tr>
+							<td>选择快递员</td>
+							<td>
+								<!-- 存放定区编号 -->
+								<input type="hidden" name="id" id="courierFixedAreaId" />
+								<input type="text" name="courierId" id="courierId" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>选择收派时间</td>
+							<td>
+								<input type="text" name="takeTimeId" id="takeTimeId" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"><a id="associationCourierBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">关联快递员</a> </td>
 						</tr>
 					</table>
 				</form>

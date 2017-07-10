@@ -2,6 +2,8 @@ package cn.itcast.bos.web.action;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -145,6 +147,20 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         public String delBatch() {
                 String[] idStrs = ids.split("-");
                 courierServiceInter.delOrRecoverBatch(idStrs, method);
+                return SUCCESS;
+        }
+        
+        
+        
+        /**
+         * 查询所有的快递员
+         * 
+         * @return 跳转路径
+         */
+        @Action(value="associationCourier", results={@Result(name="success", type="json")})
+        public String associationCourier() {
+                List<Courier> couriers = courierServiceInter.findAssociationCourier();
+                ActionContext.getContext().getValueStack().push(couriers);
                 return SUCCESS;
         }
         

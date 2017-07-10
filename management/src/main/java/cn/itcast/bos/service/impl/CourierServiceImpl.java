@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +62,14 @@ public class CourierServiceImpl implements CourierServiceInter {
                                 courierRepository.delBatch(Integer.parseInt(id));
                         }
                 }
+        }
+
+        /**
+         * @see cn.itcast.bos.service.inter.CourierServiceInter#findAssociationCourier()
+         */
+        @Override
+        public List<Courier> findAssociationCourier() {
+                return courierRepository.findAll();
         }
 
 }

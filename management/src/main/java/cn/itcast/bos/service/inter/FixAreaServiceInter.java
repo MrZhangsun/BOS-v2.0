@@ -45,4 +45,13 @@ public interface FixAreaServiceInter {
          */
         void deleteFixedArea(String[] ids);
 
+        /**
+         * 将取派员和排班时间关联到定区
+         * 
+         * @param model 定区
+         * @param courierId 取派员id
+         * @param takeTimeId 排班时间id
+         */
+        void associateToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId);
+
 }

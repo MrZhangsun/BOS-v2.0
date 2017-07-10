@@ -61,4 +61,12 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
                 }
         }
 
+        /**
+         * @see cn.itcast.bos.service.inter.FixAreaServiceInter#associateToFixedArea(FixedArea, Integer, Integer)
+         */
+        @Override
+        public void associateToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId) {
+                fixAreaReository.findOne(id);
+        }
+
 }

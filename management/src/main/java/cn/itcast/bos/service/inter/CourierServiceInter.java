@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.inter;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,6 +45,13 @@ public interface CourierServiceInter {
          * @param idStrs 取派员的id数组
          */
         void delOrRecoverBatch(String[] idStrs, String method);
+
+        /**
+         * 查询所有要关联的取派员
+         * 
+         * @return 取派员的集合
+         */
+        List<Courier> findAssociationCourier();
 
 
 

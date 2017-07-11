@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html ng-app>
-	<!--ng-app属性声明所有被其包含的内容都属于这个AngularJS应用，这也是我们
-可以在Web应用中嵌套AngularJS应用的原因。只有被具有ng-app属性的DOM元素包含的元素才
-会受AngularJS影响。-->
+<html>
 	<head>
+	<meta charset="utf-8" />
 	<title>Simple app</title>
 	<script src="../js/angularJS/angular.min.js">
 	</script>
+			<script type="text/javascript">
+			var app = angular.module('app', []);
+			app.controller('FirstController', function($scope) {
+			$scope.name
+			$scope.message = "hello";
+			});
+			function test(){
+				alert();
+			}
+	</script>
 	</head>
-	<body>
-	<input ng-model="name" type="text" placeholder="Your name">
-		<!--如果有一个叫做name的变量，它的值是“Ari”，那么视图中的"Hello
-{{ name }}"字符串会被替换成“Hello Ari” -->
-	<h1>Hello {{ name }}</h1>
+	<body ng-app="app" ng-controller="FirstController">
+		用户名<input type="text" name="name" ng-model="name"/><br />
+		<a ng-click="test()" href="javascript:void(0)">click</a>
+		{{message}} {{name}}
 	</body>
 </html>

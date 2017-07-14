@@ -185,4 +185,13 @@ footer {
 	font-size: 12px;
 	color: #666;
 }
+.form>div>div{
+	width:35%;
+}
+.form>div>label{
+	width:12%;
+}
+.form>div>span{
+	line-height:34px;
+}
 

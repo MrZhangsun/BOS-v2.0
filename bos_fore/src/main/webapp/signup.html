@@ -4,20 +4,237 @@
 		<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>我的速运-注册</title>
-
 		<link rel="stylesheet" type="text/css" href="css/styleloginsign.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
-
+			
 		<script  type="text/javascript" src="js/jquery.min.js"></script>
 		<script  type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script  type="text/javascript" src="js/self/effect.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/angular-route.min.js"></script>
+		<script type="text/javascript">
+		
+			// 初始化模块
+			var signUpApp = angular.module("signUpApp",[]);
+			// 初始化控制器
+			signUpApp.controller("SignController",function($scope,$http){
+				$scope.checkCodeMsg="发送验证码";
+				var second = 60;
+				var active = true;
+				$scope.getCheckCode=function(telephone){
+					// 向客户端发送请求短信
+					$http({
+						method: 'GET',
+						url:'sendMessage.action',
+						params:{
+							telephone:telephone
+						}
+					}).error(function(data, status, headers, config){
+						alert("短信发送失败!");
+					}).success(function(data, status, headers, config){
+						alert("验证码已经发送!");
+					});
+					
+					if(active){
+						var timer = window.setInterval(function(){
+							if(second < 0){
+								$scope.checkCodeMsg= "重新发送";
+								$scope.$digest(); // 强制刷新模板
+								active=true;
+								second=60;
+								window.clearInterval(timer);
+							}else{
+								active=false;
+								$scope.checkCodeMsg= second+"秒后重新发送";
+								$scope.$digest();
+								second--;
+							}
+						},1000);
+					}
+				}
+			});
+			
+			// 手机号码的校验
+			function checkTelephone(){
+				var telephone = $("#phone").val();
+				// 验证手机号
+				var regex = /^1(3|4|7|8)\d{9}$/;
+				if(regex.test(telephone)){
+					$("#phoneSpan").html("");
+					return true;
+				}else{
+					$("#regist").prop("disabled",false);
+					$("#phoneSpan").html("<font style='line-height=34px;' color='red'>请输入正确的手机号码</font>");
+					return false;
+				}
+				
+			};
+			
+			// 验证码的校验
+			function checkCode(){
+				var tel = checkTelephone();
+				if(tel){
+					var checkCode = $("#checkCode").val();
+					var telephone = $("#phone").val();
+					var flag;
+					$.ajax({
+						type:"post",
+						data:"checkCode="+checkCode+"&telephone="+telephone,
+						url:"registCheckCode.action",
+						async:false,
+						success:function(data){
+							if(data == '1'){
+								$("#checkCodeSpan").html("<font color='green'>正确</font>");
+								flag = true;
+							}else if(data == '0'){
+								$("#checkCodeSpan").html("<font color='red'>错误</font>");
+								flag = false;
+							}else if(data == 'null'){
+								$("#checkCodeSpan").html("<font style='line-height=34px;' color='red'>验证码为空</font>");
+								flag = false;
+							}
+						}
+					});
+					return flag;
+				}else{
+					var checkCode = $("#checkCode").val();
+					var telephone = $("#phone").val();
+					var flag;
+					$.ajax({
+						type:"post",
+						data:"checkCode="+checkCode+"&telephone="+telephone,
+						url:"registCheckCode.action",
+						async:false,
+						success:function(data){
+							if(data == '1'){
+								$("#checkCodeSpan").html("<font color='green'>正确</font>");
+								flag = false;
+							}else if(data == '0'){
+								$("#checkCodeSpan").html("<font color='red'>错误</font>");
+								flag = false;
+							}else if(data == 'null'){
+								$("#checkCodeSpan").html("<font style='line-height=34px;' color='red'>验证码为空</font>");
+								flag = false;
+							}
+						}
+					});
+					return flag;
+				}
 
-		<!--[if IE]>
-    <script  type="text/javascript" src="js/html5.js"></script>
-    <script  type="text/javascript" src="js/respond.min.js"></script>
-    <![endif]-->
+			}
+			
+			// 密码的校验
+			function checkPwd(){
+				var check = checkCode();
+				if(check){
+					// 上一层的校验通过了
+					var password = $("#password").val();
+					// 密码长度在6-16之间,不能全是数字或字母
+					var passwordRegex = /^[a-zA-Z0-9]{6,16}$/;
+					if(!passwordRegex.test(password)){
+						$("#passwordSpan").html("<font style='line-height=34px;' color='red'>密码必须是6-16位的数字下划线或者字母的组合</font>");
+						return false;
+					}else{
+						$("#passwordSpan").html("");
+						return true;
+					}
+				}else{
+					// 上一层没有通过，返回false
+					var password = $("#password").val();
+					// 密码长度在6-16之间,不能全是数字或字母
+					var passwordRegex = /^[a-zA-Z0-9]{6,16}$/;
+					if(!passwordRegex.test(password)){
+						$("#passwordSpan").html("<font style='line-height=34px;' color='red'>密码必须是6-16位的数字下划线或者字母的组合</font>");
+						return false;
+					}else{
+						$("#passwordSpan").html("");
+						return false;
+					}
+				}
+			}
+			
+			// 确认密码校验
+			function checkRePwd(){
+				
+				var pwd = checkPwd();
+				if(pwd){
+					var password = $("#password").val();
+					var repassword = $("#repassword").val();
+					if(password != repassword){
+						$("#repasswordSpan").html("<font  style='line-height=34px;' color='red'>两次输入的密码不一致</font>");
+						return false;
+					}else{
+						$("#repasswordSpan").html("");
+						return true;
+					}
+				}else{
+					var password = $("#password").val();
+					var repassword = $("#repassword").val();
+					if(password != repassword){
+						$("#repasswordSpan").html("<font  style='line-height=34px;' color='red'>两次输入的密码不一致</font>");
+						return false;
+					}else{
+						$("#repasswordSpan").html("");
+						return false;
+					}
+				}
+
+			}
+			
+			// 邮箱校验
+			function checkEmail(){
+				var repwd = checkRePwd();
+				if(repwd){
+					var regex = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+					var email = $("#email").val();
+					if(!regex.test(email)){
+						$("#eamilSpan").html("<font color='red'>邮箱格式不正确!</font>");
+						return false;
+					}else{
+						$("#eamilSpan").html("");
+						return true;
+					}
+				}else{
+					var regex = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+					var email = $("#email").val();
+					if(!regex.test(email)){
+						$("#eamilSpan").html("<font color='red'>邮箱格式不正确!</font>");
+						return false;
+					}else{
+						$("#eamilSpan").html("");
+						return false;
+					}
+				}
+
+			}
+			
+			// 表单提交之前的校验
+			function submitFun(data){
+				var email = checkEmail();
+				var protal = $("#protal").prop('checked');
+				var flag = (email && protal);
+				alert(email + "--"+ protal);
+				return flag;
+				
+			}
+			
+			$(function(){
+				// 手机号码的校验
+				$("#phone").on("blur", checkTelephone);
+				// 密码校验
+				$("#password").on("blur", checkPwd);
+				// 确认密码校验
+				$("#repassword").on("blur", checkRePwd);
+				// 校验码校验
+				$("#checkCode").on("blur",checkCode);
+				// 邮箱的校验
+				$("#email").on("blur",checkEmail);	
+			});
+
+		</script>
 	</head>
-	<body>
+	<body ng-app="signUpApp">
+
 		<!--head-->
 		<div class="loginnav">
 			<nav class="navbar navbar-default">
@@ -26,96 +243,89 @@
 						<a class="navbar-brand" href="#"><img src="images/icon/logo.png"></a>
 						<span class="logintitle">用户注册</span>
 					</div>
-
 				</div>
-
 			</nav>
 		</div>
 		<div class="container">
-		<!--mainsignup-->
-		<section class="mainsign">
+		<!--main sign up-->
+		<section class="mainsign" ng-controller="SignController">
 			<div class="headnav">
 								
 			</div>
 			
             <div class="signup">
-              <div class="col-md-9 signupbox">
-				<form class="form col-md-6">
+              	<div class="col-md-9 signupbox">
+				<form class="form col-md-6" id="registForm" action="customerRegist.action" onsubmit="return submitFun(this)"
+					method="post" style="width:100%;">
 					<div class=" form-group">
-							<label for="inputaccount" class="col-sm-3 control-label"><b>*</b>手机号</label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control" id="inputaccount" placeholder="请输入手机号">
-							</div>
+						<label for="phone" class="col-sm-3 control-label"><b>*</b>手机号</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" ng-model="telephone" id="phone" name="telephone" placeholder="请输入手机号">
+						</div>
+						<span id="phoneSpan" style="width: 20px;"></span>
 					</div>
 					<div class="form-group">
-							<label for="inputaccount" class="col-sm-3 control-label"><b>*</b>验证码</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" id="inputaccount" placeholder="请输入验证码">
-							</div>
-							<div class="col-sm-3 song">
-								<button class="btn btn-default">获取验证码</button>
-							</div>
-							
+						<label for="checkCode" class="col-sm-3 control-label"><b>*</b>验证码</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="checkCode" placeholder="请输入验证码">
+						</div>
+						<div class="col-sm-3 song">
+							<a class="btn btn-default" ng-click="getCheckCode(telephone)">{{checkCodeMsg}}</a>
+						</div>
+						<span id="checkCodeSpan"></span>
 					</div>
 					<div class="form-group">
-							<label for="inputaccount" class="col-sm-3 control-label"><b>*</b>密码</label>
-							<div class="col-sm-8">
-								<input type="password" class="form-control" id="inputaccount" placeholder="6-16位数字或英文字母">
-								<p class="text-right grey">安全强度：*****</p>
-							</div>
-							
+						<label for="password" class="col-sm-3 control-label"><b>*</b>密码</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="password" name="password" placeholder="6-16位数字或英文字母">
+							<p class="text-right grey">安全强度：*****</p>
+						</div>
+						<span id="passwordSpan"></span>
 					</div>
 					
 					<div class="form-group">
-							<label for="inputaccount" class="col-sm-3 control-label"><b>*</b>确认密码</label>
-							<div class="col-sm-8">
-								<input type="password" class="form-control" id="inputaccount" placeholder="6-16位数字或英文字母">
-							</div>
+						<label for="repassword" class="col-sm-3 control-label"><b>*</b>确认密码</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="repassword" placeholder="6-16位数字或英文字母">
+						</div>
+						<span id="repasswordSpan"></span>
 					</div>
 					<div class="form-group">
-							<label for="inputaccount" class="col-sm-3 control-label"><b>*</b>绑定邮箱</label>
-							<div class="col-sm-8">
-								<input type="email" class="form-control" id="inputemail" placeholder="请输入需要绑定的邮箱">
-							</div>
+						<label for="email" class="col-sm-3 control-label"><b>*</b>绑定邮箱</label>
+						<div class="col-sm-8">
+							<input type="email" class="form-control" id="email" name="email" placeholder="请输入需要绑定的邮箱">
+						</div>
+						<span id="eamilSpan"></span>
 					</div>
 					<div class="form-group">							
-							<div class="col-sm-offset-3 col-sm-8 song">
-								<div class="checkbox">
-    <label>
-      <input type="checkbox"> 查看并同意<a href="#"> 《速运快递服务协议》</a>
-    </label>
-  </div>
-								
+						<div class="col-sm-offset-3 col-sm-8 song">
+							<div class="checkbox">
+							    <label>
+							      <input type="checkbox" id="protal"> 查看并同意<a href="#"> 《速运快递服务协议》</a>
+							    </label>
 							</div>
+						</div>
 					</div>
 					<div class="form-group signbtn">							
-							<div class="col-sm-offset-3 col-sm-8 song">
-								<a class="btn btn-danger" href="signup-success.html">注册</a>
-							</div>
+						<div class="col-sm-offset-3 col-sm-8 song">
+							<input class="btn btn-danger" id="regist" type="submit" value="注册">
+						</div>
 					</div>
-					
-					
 				</form>
-				
-				
-				
 			</div>
-		      <div class="col-md-3 introbox">
-		      	<div class="signintro">
-		      	<h5 class="redtext">注册成为速运会员，您可以享受更多的服务！</h5>
-		      	<ul>
-		      		<li class="list-group">积分奖励，电子运单专享特权</li>
-		      		<li class="list-group">快速理赔，保价优惠</li>
-		      		<li class="list-group">大陆偏远地区附加费减免</li>
-		      		<li class="list-group">快件路由订阅，快件信息管理，批量下单</li>
-		      		
-		      	</ul>
-		      	</div>
-		      	
-		      </div>
-		</div>
+		        <div class="col-md-3 introbox">
+			      	<div class="signintro">
+				      	<h5 class="redtext">注册成为速运会员，您可以享受更多的服务！</h5>
+				      	<ul>
+				      		<li class="list-group">积分奖励，电子运单专享特权</li>
+				      		<li class="list-group">快速理赔，保价优惠</li>
+				      		<li class="list-group">大陆偏远地区附加费减免</li>
+				      		<li class="list-group">快件路由订阅，快件信息管理，批量下单</li>
+				      	</ul>
+			      	</div>
+		        </div>
+		    </div>
 		</section>
-		
 		</div>
 		
 		<!--foot-->

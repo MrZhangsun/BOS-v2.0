@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,7 +19,6 @@ import cn.itcast.crm.domain.Customer;
  * @author 长孙建坤  18092853734
  * @version 1.0 ，2017年7月7日  下午8:26:15
  */
-//@Path(value="service")
 @Consumes("*/*")
 public interface CustomerServiceInter {
 
@@ -50,7 +50,17 @@ public interface CustomerServiceInter {
          * @param customerIds 客户的id串
          */
         @PUT
-        @Path("/associateToFixedArea")
+        @Path("/associateToFixedArea/")
         public void associateToFixedArea(@QueryParam("customerIds") String customerIds,
                         @QueryParam("fixId") String fixId);
+        
+        /**
+         * 保存用户的注册信息
+         * 
+         * @param customer 注册的用户信息
+         */
+        @POST
+        @Path("/saveCustomer")
+        @Consumes({"application/xml", "application/json"})
+        public void saveCustomer(Customer customer);
 }

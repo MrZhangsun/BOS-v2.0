@@ -67,6 +67,9 @@ public class Courier {
 		return courierNum;
 	}
 
+       public String getInfo() {
+                return name +"("+company+")";
+        }
 	public void setCourierNum(String courierNum) {
 		this.courierNum = courierNum;
 	}

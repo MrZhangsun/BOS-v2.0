@@ -8,8 +8,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.itcast.bos.dao.inter.CourierRepository;
 import cn.itcast.bos.dao.inter.FixAreaReository;
+import cn.itcast.bos.dao.inter.TakeTimeRepository;
+import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.FixedArea;
+import cn.itcast.bos.domain.base.TakeTime;
 import cn.itcast.bos.service.inter.FixAreaServiceInter;
 
 /**
@@ -24,6 +28,12 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
 
          @Resource
          private FixAreaReository fixAreaReository;
+         
+         @Resource 
+         private CourierRepository courierRepository;
+         
+         @Resource
+         private TakeTimeRepository takeTimeRepository;
          
          /**
           * @see cn.itcast.bos.service.inter.FixAreaServiceInter#addOrUpdateFixArea(FixedArea)
@@ -66,7 +76,16 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
          */
         @Override
         public void associateToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId) {
-                fixAreaReository.findOne(id);
+                // 根据定区的id查询到指定的定区
+                FixedArea fixedArea = fixAreaReository.findOne(model.getId());
+                // 根据取派员的id查询到指定的取派员
+                Courier courier = courierRepository.findOne(courierId);
+                // 根据取派时间的id查询到指定的取派时间
+                TakeTime takeTime = takeTimeRepository.findOne(takeTimeId);
+                // 取派员关联取派时间
+                courier.setTakeTime(takeTime);
+                // 定区关联取派员和取派时间
+                fixedArea.getCouriers().add(courier);
         }
 
 }

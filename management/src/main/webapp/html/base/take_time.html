@@ -62,6 +62,8 @@
 				handler : function(){
 					var selections = $("#grid").datagrid('getSelections');
 					if(selections.length == 1){
+						
+						$("#id").val(selections[0].id);
 						$.ajax({
 							type:"post",
 							url:"../../searchTakeTime.action",
@@ -187,15 +189,10 @@
 							<td colspan="2">排班信息</td>
 						</tr>
 						<tr>
-							<td>排班编号</td>
-							<td>
-								<input type="text" name="id" class="easyui-validatebox" required="true" />
-							</td>
-						</tr>
-						<tr>
 							<td>时间名称</td>
 							<td>
 								<input type="text" name="name" class="easyui-validatebox" required="true" />
+								<input type="hidden" name="id" id="id" class="easyui-validatebox"/>
 							</td>
 						</tr>
 						<tr>

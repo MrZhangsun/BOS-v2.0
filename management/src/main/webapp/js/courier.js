@@ -81,7 +81,13 @@ var columns = [[{
 	field : 'standard.name',
 	title : '取派标准',
 	width : 100,
-	align : 'center'
+	align : 'center',
+	formatter : function(val, row, index){
+		if(row.standard != null){
+			return row.standard.name;
+		}
+		return "";
+	}
 },{
 	field : 'takeTime',
 	title : '轮岗时间',

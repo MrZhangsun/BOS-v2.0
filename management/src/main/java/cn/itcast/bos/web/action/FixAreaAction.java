@@ -2,8 +2,6 @@ package cn.itcast.bos.web.action;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,8 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
-
-import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.FixedArea;
 import cn.itcast.bos.service.inter.FixAreaServiceInter;
 import cn.itcast.bos.web.action.base.BaseAction;
@@ -160,7 +156,8 @@ public class FixAreaAction extends BaseAction<FixedArea> {
          * 
          * @return 跳转路径
          */
-        @Action(value="addCustomerToFixedArea", results={@Result(name="success", location="./html/base/fixed_area.html", type="redirect")})
+        @Action(value="addCustomerToFixedArea", 
+                        results={@Result(name="success", location="./html/base/fixed_area.html", type="redirect")})
         public String addCustomerToFixedArea() {
                 String join = StringUtils.join(customerIds,"-");
                 WebClient.create("http://localhost:8888/crm_management/service/userService/associateToFixedArea?customerIds="+join+"&fixId="+model.getId())
@@ -185,9 +182,11 @@ public class FixAreaAction extends BaseAction<FixedArea> {
          * 
          * @return 跳转路径
          */
-        @Action(value="fixedArea_associationCourierToFixedArea", results={@Result(name="success", type="json")})
+        @Action(value="fixedArea_associationCourierToFixedArea", 
+                        results={@Result(name="success", location="./html/base/fixed_area.html", type="redirect")})
         public String association() {
-               fixAreaServiceInter.associateToFixedArea(model, courierId, takeTimeId);
+                fixAreaServiceInter.associateToFixedArea(model, courierId, takeTimeId);
                 return SUCCESS;
+                
         }
 }

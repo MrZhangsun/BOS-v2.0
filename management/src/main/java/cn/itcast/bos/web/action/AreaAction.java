@@ -55,6 +55,7 @@ public class AreaAction extends BaseAction<Area>{
         }
         /**
          * 文件上传
+         * 
          * @return 
          */
         @Action(value="uploadFile", results={@Result(name="success",

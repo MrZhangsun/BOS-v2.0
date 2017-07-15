@@ -61,4 +61,20 @@ public class CustomerServiceImpl implements CustomerServiceInter {
         public void saveCustomer(Customer customer) {
                 customerRepository.save(customer);
         }
+
+        /**
+         * @see cn.itcast.crm.cxf.service.inter.CustomerServiceInter#activeCustomer(String)
+         */
+        @Override
+        public void activeCustomer(String telephone) {
+                customerRepository.activeCustomer(telephone);
+        }
+
+        /**
+         * @see cn.itcast.crm.cxf.service.inter.CustomerServiceInter#findByTelephone(String)
+         */
+        @Override
+        public Customer findByTelephone(String telephone) {
+                return findByTelephone(telephone);
+        }
 }

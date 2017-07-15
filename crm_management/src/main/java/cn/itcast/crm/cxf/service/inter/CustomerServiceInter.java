@@ -39,7 +39,7 @@ public interface CustomerServiceInter {
          */
         @GET
         @Path("/findAssociationCustomers/{id}")
-        @Produces("application/json")
+        @Produces("*/*")
         public List<Customer> findAssociationCustomers(@PathParam("id") String id);
         
         /**
@@ -63,4 +63,26 @@ public interface CustomerServiceInter {
         @Path("/saveCustomer")
         @Consumes({"application/xml", "application/json"})
         public void saveCustomer(Customer customer);
+        
+        /**
+         * 邮箱激活
+         * 
+         * @param activeCode 用户的激活码
+         * @param telephone 用户的手机号码
+         */
+        @PUT
+        @Path("/activeCustomer")
+        @Consumes({"application/xml", "application/json"})
+        public void activeCustomer(String telephone); 
+        
+        /**
+         * 根据电话号码查询用户的信息
+         * 
+         * @param telephone 用户的手机号码
+         * @return 用户对象
+         */
+        @GET
+        @Path("/findByTelephone/{telephone}")
+        @Consumes({"application/xml", "application/json"})
+        public Customer findByTelephone(@PathParam("telephone")String telephone);
 }

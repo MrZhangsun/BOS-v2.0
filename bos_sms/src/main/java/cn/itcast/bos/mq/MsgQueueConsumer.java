@@ -1,12 +1,10 @@
 package cn.itcast.bos.mq;
 
-import java.io.UnsupportedEncodingException;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import org.springframework.stereotype.Component;
-import cn.itcast.bos.util.SmsUtils;
 
 /**
  * 队列消息消费者,实现短信的发送
@@ -15,7 +13,7 @@ import cn.itcast.bos.util.SmsUtils;
  * @version 1.0 ，2017年7月12日  下午10:34:25
  */
 @Component
-public class QueueConsumer implements MessageListener {
+public class MsgQueueConsumer implements MessageListener {
 
         @Override
         public void onMessage(Message message) {

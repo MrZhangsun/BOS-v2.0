@@ -43,7 +43,8 @@
     <jms:listener-container destination-type="queue" container-type="default" 
     	connection-factory="connectionFactory" acknowledge="auto">
         <!-- 默认注册bean名称，应该是类名首字母小写  -->
-        <jms:listener destination="telephone" ref="queueConsumer"/>
+        <jms:listener destination="telephone" ref="msgQueueConsumer"/>
+        <jms:listener destination="activeCode" ref="emailQueueConsumer"/>
     </jms:listener-container>
     <!-- 消息消费者 end -->
     

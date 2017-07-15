@@ -34,4 +34,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         @Modifying
         void associatCustomerToFixedArea(Integer id, String fixId);
 
+        /**
+         * 激活用户
+         * 
+         * @param telephone 用户的手机号码(用户名)
+         */
+        @Query("update Customer set type = 1 where telephone = ?")
+        @Modifying
+        void activeCustomer(String telephone);
+
 }

@@ -24,7 +24,7 @@ public class EmailQueueConsumer implements MessageListener{
                         String activeCode = msg.getString("code");
                         String email = msg.getString("email");
                         String subject = "宅急送激活邮件";
-                        String content = "尊敬的用户，请点击下面的连接进行账户激活！"+ MailUtils.activeUrl +"/?activeCode="+ activeCode + "&telephone="+ telephone;
+                        String content = "尊敬的用户，请点击下面的连接进行账户激活！"+ MailUtils.activeUrl +"?activeCode="+ activeCode + "&telephone="+ telephone;
                         MailUtils.sendMail(subject, content, email);
                 } catch (JMSException e) {
                         e.printStackTrace();

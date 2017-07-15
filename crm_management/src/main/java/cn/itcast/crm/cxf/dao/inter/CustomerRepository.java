@@ -43,4 +43,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         @Modifying
         void activeCustomer(String telephone);
 
+        Customer findByTelephone(String telephone);
+
 }

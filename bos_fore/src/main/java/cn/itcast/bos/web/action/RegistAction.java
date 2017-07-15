@@ -70,6 +70,7 @@ public class RegistAction  extends BaseAction<Customer>{
                 });
                 return NONE;
         }
+        
         // 接收验证码
         private String checkCode;
         
@@ -150,11 +151,11 @@ public class RegistAction  extends BaseAction<Customer>{
                 // 判断激活码是否有效
                 String redis_code = redisTemplate.opsForValue().get(model.getTelephone());
                 if (redis_code != null && activeCode.equals(redis_code)) {
-                        // 查询邮箱是否已经绑定
-                        Customer customer = WebClient.create("http://localhost:8888/crm_management/service/userServcie/findByTelephone/"+model.getTelephone())
+                        // 查询邮箱是否已经绑定                                                                                         
+                        Customer customer = WebClient.create("http://localhost:8888/crm_management/service/userService/findByTelephone/"+model.getTelephone())
                         .accept(MediaType.APPLICATION_JSON)
                         .get(Customer.class);
-                        if (customer.getType() == null && customer.getType() != 1) {
+                        if (customer != null && customer.getType() == null) {
                                 // 进行邮箱绑定
                                 WebClient.create("http://localhost:8888/crm_management/service/userService/activeCustomer")
                                 .put(model.getTelephone());

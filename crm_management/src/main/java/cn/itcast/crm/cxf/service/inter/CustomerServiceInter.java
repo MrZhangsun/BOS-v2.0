@@ -84,5 +84,6 @@ public interface CustomerServiceInter {
         @GET
         @Path("/findByTelephone/{telephone}")
         @Consumes({"application/xml", "application/json"})
+        @Produces({"application/xml", "application/json"})
         public Customer findByTelephone(@PathParam("telephone")String telephone);
 }

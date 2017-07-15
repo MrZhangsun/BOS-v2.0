@@ -75,6 +75,6 @@ public class CustomerServiceImpl implements CustomerServiceInter {
          */
         @Override
         public Customer findByTelephone(String telephone) {
-                return findByTelephone(telephone);
+                return customerRepository.findByTelephone(telephone);
         }
 }

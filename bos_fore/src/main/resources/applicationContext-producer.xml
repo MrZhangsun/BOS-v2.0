@@ -33,7 +33,7 @@
         <!-- Session缓存数量 -->
         <property name="sessionCacheSize" value="100" />
     </bean>
-
+    
     <!-- spring-jmsQueuetemplate -->
     <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
         <constructor-arg ref="connectionFactory" />

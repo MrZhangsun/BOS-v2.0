@@ -81,5 +81,8 @@
         <jpa:repositories base-package="cn.itcast.bos.dao" />
         
         <!-- 引入生产者 -->
-        <import resource="applicationContext-producer.xml"></import>
+        <import resource="applicationContext-producer.xml"/>
+        
+        <!-- 引入redis -->
+        <import resource="applicationContext-cache.xml"/>
 </beans>

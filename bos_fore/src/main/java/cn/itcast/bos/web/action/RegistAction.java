@@ -1,17 +1,15 @@
 package cn.itcast.bos.web.action;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -19,12 +17,12 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 import cn.itcast.bos.web.action.base.BaseAction;
 import cn.itcast.crm.domain.Customer;
-import redis.clients.jedis.Jedis;
 
 /**
  * 用户注册模块表示层
@@ -40,8 +38,14 @@ public class RegistAction  extends BaseAction<Customer>{
 
         private static final long serialVersionUID = 1L;
         
+        /** activeMQ模板 */
         @Resource(name="jmsQueueTemplate")
         private JmsTemplate jmsQueueTemplate;
+        
+        /** redis模板 */
+        @Resource(name="redisTemplate")
+        private RedisTemplate<String, String> redisTemplate;
+        
         /**
          * 发送验证码
          * 
@@ -107,20 +111,71 @@ public class RegistAction  extends BaseAction<Customer>{
                                         @Result(name="input", location="./signup.html", type="redirect")})
         public String customerRegist() {
                 // 生成激活码
-                String activeCode = RandomStringUtils.randomAlphanumeric(32);
-                // 创建redis服务器连接
-                Jedis client = new Jedis("localhost", 6379);
-                // 将激活码存放到redis服务器,设置有效期
-                client.set("activeCode", activeCode, "30");
+                final String activeCode = RandomStringUtils.randomAlphanumeric(32);
+                // 将用户的激活码存放打redis服务器中部
+                redisTemplate.opsForValue().set(model.getTelephone(), activeCode, 24, TimeUnit.HOURS);;
                 // 将用户的邮箱存放到activeMQ中去,让ActiveMq完成邮件的发送
+                jmsQueueTemplate.send("activeCode", new MessageCreator() {
+                        @Override
+                        public Message createMessage(Session session) throws JMSException {
+                                MapMessage message = session.createMapMessage();
+                                message.setString("telephone", model.getTelephone());
+                                message.setString("email", model.getEmail());
+                                message.setString("code", activeCode);
+                                return message;
+                        }
+                });
                 
                 // 调用crm系统保存用户的信息
-                Response response = WebClient
+                WebClient
                         .create("http://localhost:8888/crm_management/service/userService/saveCustomer")
                         .type(MediaType.APPLICATION_JSON)
                         .post(model);
-                System.out.println(response);
-                
                 return SUCCESS;
         }
+        // 激活邮件发送的验证码
+        private String activeCode;
+        
+        public void setActiveCode(String activeCode) {
+                this.activeCode = activeCode;
+        }
+
+        /**
+         * 邮箱激活
+         * 
+         * @return 跳转路径
+         */
+        @Action(value="activeCustomer")
+        public String activeCustomer() {
+                // 判断激活码是否有效
+                String redis_code = redisTemplate.opsForValue().get(model.getTelephone());
+                if (redis_code != null && activeCode.equals(redis_code)) {
+                        // 查询邮箱是否已经绑定
+                        Customer customer = WebClient.create("http://localhost:8888/crm_management/service/userServcie/findByTelephone/"+model.getTelephone())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .get(Customer.class);
+                        if (customer.getType() == null && customer.getType() != 1) {
+                                // 进行邮箱绑定
+                                WebClient.create("http://localhost:8888/crm_management/service/userService/activeCustomer")
+                                .put(model.getTelephone());
+                        } else {
+                                // 重复绑定
+                                try {
+                                        ServletActionContext.getResponse().getWriter().println("您的邮箱已经绑定到当前账户,请不要重复绑定!");
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
+                        }
+                } else {
+                        try {
+                                ServletActionContext.getResponse().getWriter().println("您的激活码已经过期,请登录系统,重新绑定邮箱.");
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+                // 调用crm系统修改用户的激活状态
+                
+                return NONE;
+        }
+        
 }

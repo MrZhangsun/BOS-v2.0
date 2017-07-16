@@ -2,11 +2,11 @@ package cn.itcast.maven.bos_domain;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -39,7 +39,8 @@ public class Promotion implements Serializable {
 	private String updateUser;// 更新人 后续与后台用户关联
 	@Column(name = "C_STATUS")
 	private String status = "1"; // 状态 可取值：1.进行中 2. 已结束
-	@Column(name = "C_DESCRIPTION")
+	@Lob
+	@Column(name="C_Description", columnDefinition="TEXT" , nullable=false)
 	private String description; // 宣传内容(活动描述信息)
 
 	public Integer getId() {

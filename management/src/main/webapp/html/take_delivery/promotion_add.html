@@ -38,6 +38,23 @@
 						allowFileManager:true
 					});
 				});
+				
+				// 提交表单
+				$("#save").on("click", function(){
+					var validate = $("#promotionForm").form("validate");
+					if(validate) {
+						// 同步kindeditor
+						window.editor.sync();
+						$("#promotionForm").submit();
+					}else{
+						alert("表单校验没有通过!");
+					}
+				});
+				
+				// 返回到到促销页面
+				$("#back").on("click", function(){
+					window.location.href="promotion.html";
+				});
 			});
 
 		</script>
@@ -69,7 +86,7 @@
 						</td>
 						<td>宣传图片:</td>
 						<td>
-							<input type="file" name="titleImgFile" id="titleImg" class="easyui-validatebox" required="true"/>
+							<input type="file" name="imgFile" id="titleImg" class="easyui-validatebox" required="true"/>
 						</td>
 					</tr>
 					<tr>

@@ -22,7 +22,7 @@
 		{"id":"33","pId":"3","name":"取派调度监控","path":"http://www.baidu.com"},
 		{"id":"34","pId":"3","name":"签收录入","path":"http://www.baidu.com"},
 		{"id":"35","pId":"3","name":"取消签收申请","path":"http://www.baidu.com"},
-		{"id":"36","pId":"3","name":"宣传任务","path":"http://www.baidu.com"},
+		{"id":"36","pId":"3","name":"宣传任务","path":"html/take_delivery/promotion.html"},
 		{"id":"41","pId":"4","name":"入库","path":"http://www.baidu.com"},
 		{"id":"42","pId":"4","name":"出库","path":"http://www.baidu.com"},
 		{"id":"43","pId":"4","name":"盘库","path":"http://www.baidu.com"},

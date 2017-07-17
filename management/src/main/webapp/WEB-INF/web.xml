@@ -28,6 +28,19 @@
 	  </filter>
 	  <filter-mapping>
 	        <filter-name>struts2</filter-name>
-	        <url-pattern>/*</url-pattern>
+	        <!-- 此处要将核心过滤器设置成*.action，因为，前端系统请求过来时，路径中并没有带.action，所以如何过
+	        不修改，会被后台的过滤器拦截，按照请求的URL到action中区寻找对应的方法，势必找不到，所以要让核心
+	        过滤器放行，让cxf的过滤器去实现路径的分流 -->
+	        <url-pattern>*.action</url-pattern>
 	  </filter-mapping>
+	  <!-- CXFServlet -->
+	   <servlet>
+	       <servlet-name>cxfServlet</servlet-name>
+	       <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	       <load-on-startup>1</load-on-startup>
+	   </servlet>
+	   <servlet-mapping>
+	       <servlet-name>cxfServlet</servlet-name>
+	       <url-pattern>/service/*</url-pattern>
+	   </servlet-mapping>
 </web-app>

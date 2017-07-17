@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.io.File;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import cn.itcast.bos.domain.base.SubArea;
 import cn.itcast.bos.service.inter.SubAreaServiceInter;
-import cn.itcast.bos.web.action.base.BaseAction;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 @Controller
 @Scope("prototype")

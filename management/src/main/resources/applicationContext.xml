@@ -73,4 +73,7 @@
         
         <!-- spring data 整合JPA -->
         <jpa:repositories base-package="cn.itcast.bos.dao" />
+        
+        <!-- CXF服务配置 -->
+        <import resource="applicationContext-cxf.xml"/>
 </beans>

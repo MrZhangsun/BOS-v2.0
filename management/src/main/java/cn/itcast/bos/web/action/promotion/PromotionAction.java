@@ -10,10 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import javax.annotation.Resource;
-import javax.ws.rs.Path;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
@@ -25,11 +22,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-
 import com.opensymphony.xwork2.ActionContext;
-
 import cn.itcast.bos.service.promotion.inter.PromotionServiceInter;
-import cn.itcast.bos.web.action.base.BaseAction;
+import cn.itcast.bos.web.action.common.BaseAction;
 import cn.itcast.maven.bos_domain.Promotion;
 
 /**

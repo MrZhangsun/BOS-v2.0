@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;

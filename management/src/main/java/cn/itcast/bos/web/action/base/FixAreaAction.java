@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import cn.itcast.bos.domain.base.FixedArea;
 import cn.itcast.bos.service.inter.FixAreaServiceInter;
-import cn.itcast.bos.web.action.base.BaseAction;
+import cn.itcast.bos.web.action.common.BaseAction;
 import cn.itcast.crm.domain.Customer;
 
 /**

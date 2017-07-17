@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.opensymphony.xwork2.ActionContext;
 
 import cn.itcast.bos.domain.base.TakeTime;
 import cn.itcast.bos.service.inter.TakeTimeServiceInter;
-import cn.itcast.bos.web.action.base.BaseAction;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 /**
  * 时间管理模块表现层

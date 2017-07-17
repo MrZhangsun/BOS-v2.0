@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ import com.opensymphony.xwork2.ActionContext;
 import cn.itcast.bos.domain.base.Area;
 import cn.itcast.bos.service.inter.AreaServiceInter;
 import cn.itcast.bos.util.PinYin4jUtils;
-import cn.itcast.bos.web.action.base.BaseAction;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 /**
  * 区域模块表示层

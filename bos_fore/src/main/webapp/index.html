@@ -17,10 +17,64 @@
 		<script type="text/javascript" src="js/angular.min.js"></script>
 		<script type="text/javascript" src="js/angular-route.min.js"></script>
 		
-		<!--[if IE]>
-    <script src="js/html5.js"  type="text/javascript"></script>
-    <script src="js/respond.min.js"  type="text/javascript"></script>
-    <![endif]-->
+		<script type="text/javascript">
+			var bosfore_app = angular.module("bosfore_app", ['ngRoute']);
+			bosfore_app.config(["$routeProvider", function($routeProvider) {
+				$routeProvider.when("/", {
+					templateUrl: 'main.html'
+				}).when("/order", {
+					templateUrl: 'order.html'
+				}).when("/express_manage", {
+					templateUrl: 'express_manage.html'
+				}).when("/userinfo", {
+					templateUrl: 'userinfo.html'
+				}).when("/search", {
+					templateUrl: 'search.html'
+				}).when("/myhome", {
+					templateUrl: 'myhome.html'
+				}).when("/promotion", {
+					templateUrl: 'promotion.html'
+				}).when("/promotion_detail/:id", {
+					templateUrl: function($routeParams){
+						return "promotion_showDetail.action?id=" + $routeParams.id;
+					}
+				}).when('#',{
+					templateUrl:'main.html'
+				}).otherwise({
+					redirectTo: 'main.html'
+				})
+			}]);
+			
+			// 账户管理 控制器 
+			bosfore_app.controller("userInfoCtrl",["$scope",function($scope){
+			}]);
+			
+			// 在线下单控制器
+			bosfore_app.controller("orderCtrl",["$scope",function($scope){
+			}]);
+			
+			// 主页控制器
+			bosfore_app.controller("PromotionCtrl", function($scope, $http) {
+				$http({
+					method:'POST',
+					url:'findMainPromotions.action',
+					params:{
+						page:1,
+						rows:4
+					}
+				}).success(function(data,status,header,config){
+					alert(data);
+					/*$scope.pageContent = data.pageContent;
+					$scope.totalCount = data.totalCount;*/
+				}).error(function(data,status,header,config){
+					
+				});
+			});
+		</script>
+		<script src="js/self/page.js"></script>
+
+	
+
 	</head>
 
 	<body ng-app="bosfore_app">
@@ -150,38 +204,5 @@
 			</div>
 		</div>
 		<a href="#0" class="cd-top">Top</a>
-		<script type="text/javascript">
-			var bosfore_app = angular.module("bosfore_app", ['ngRoute']);
-			bosfore_app.config(["$routeProvider", function($routeProvider) {
-				$routeProvider.when("/", {
-					templateUrl: 'main.html'
-				}).when("/order", {
-					templateUrl: 'order.html'
-				}).when("/express_manage", {
-					templateUrl: 'express_manage.html'
-				}).when("/userinfo", {
-					templateUrl: 'userinfo.html'
-				}).when("/search", {
-					templateUrl: 'search.html'
-				}).when("/myhome", {
-					templateUrl: 'myhome.html'
-				}).when("/promotion", {
-					templateUrl: 'promotion.html'
-				}).when("/promotion_detail", {
-					templateUrl: 'promotion_detail.html'
-				}).otherwise({
-					redirectTo: '/'
-				})
-			}]);
-			
-			// 账户管理 控制器 
-			bosfore_app.controller("userInfoCtrl",["$scope",function($scope){
-			}]);
-			
-			// 在线下单控制器
-			bosfore_app.controller("orderCtrl",["$scope",function($scope){
-			}]);
-		</script>
 	</body>
-	<script src="js/self/page.js"></script>
 </html>

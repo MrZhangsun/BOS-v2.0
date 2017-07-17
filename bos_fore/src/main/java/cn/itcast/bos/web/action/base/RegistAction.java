@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action;
+package cn.itcast.bos.web.action.base;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +21,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
-import cn.itcast.bos.web.action.base.BaseAction;
+
+import cn.itcast.bos.web.action.common.BaseAction;
 import cn.itcast.crm.domain.Customer;
 
 /**

@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action.base;
+package cn.itcast.bos.web.action.common;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

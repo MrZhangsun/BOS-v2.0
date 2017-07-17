@@ -1,6 +1,9 @@
 <!--
+
 	描述：主页信息
+
 -->
+
 <section class="bannerarea">
 	<div class="bannerimg"><img src="images/show/suyun/banner.png" class="img-responsive" alt="Responsive image"></div>
 	<div class="seekimport">
@@ -38,64 +41,20 @@
 			<p class="text-center"><span class="subtitle">ACTIVITY PROMOTION</span></p>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
+		<div class="row" ng-controller="PromotionCtrl">
+			<div class="col-sm-6 col-md-3" ng-repeat="page in {{pageContent}}">
 				<div class="thumbnail">
-					<img src="images/show/suyun/promotion1.png" alt="活动一">
-
+					<!--<img src="#" alt="活动一">
+-->
 					<div class="caption">
-						<p>进入x月，中俄跨境电商物流服务又添 喜讯：速运快递特惠开通了中国大陆...
-						</p>
-
+						<p>{{page.title}}</p>
 						<p class="text-right status"><span>进行中</span></p>
-						<p class="text-right grey">20xx.xx.xx-20xx.xx.xx</p>
-						<p class="text-right grey">中国大陆适用</p>
+						<p class="text-right grey">{{page.startDate}}-{{page.endDate}}</p>
+						<p class="text-right grey">{{activeScope}}</p>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="thumbnail">
-					<img src="images/show/suyun/promotion2.png" alt="活动二">
-
-					<div class="caption">
-						<p>疯狂夏寄，速运三重惠，给利益享不停 手机支付运费返5%
-						</p>
-
-						<p class="text-right status"><span>进行中</span></p>
-						<p class="text-right grey">20xx.xx.xx-20xx.xx.xx</p>
-						<p class="text-right grey">中国大陆适用</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="thumbnail">
-					<img src="images/show/suyun/promotion3.png" alt="活动三">
-
-					<div class="caption">
-						<p>速运快递再开通中国至印尼、印度、柬 埔寨三国快递服务！
-						</p>
-
-						<p class="text-right status"><span>进行中</span></p>
-						<p class="text-right grey">20xx.xx.xx-20xx.xx.xx</p>
-						<p class="text-right grey">中国大陆适用</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="thumbnail">
-					<img src="images/show/suyun/promotion4.png" alt="活动四">
-
-					<div class="caption">
-						<p>关于杭州举办“20国集团领导人第1x次 峰会”期间我司收派服务调整的通知...
-						</p>
-
-						<p class="text-right status"><span>进行中</span></p>
-						<p class="text-right grey">20xx.xx.xx-20xx.xx.xx</p>
-						<p class="text-right grey">中国大陆适用</p>
-					</div>
-				</div>
-			</div>
-
+			
 		</div>
 
 		<p class="text-center more">

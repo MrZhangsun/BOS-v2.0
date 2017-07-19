@@ -6,14 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @description:促销信息实体类
  */
 @Entity
 @Table(name = "T_PROMOTION")
+@XmlRootElement(name="promotion")
 public class Promotion implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -39,14 +40,13 @@ public class Promotion implements Serializable {
 	private String updateUser;// 更新人 后续与后台用户关联
 	@Column(name = "C_STATUS")
 	private String status = "1"; // 状态 可取值：1.进行中 2. 已结束
-	@Lob
-	@Column(name="C_Description", columnDefinition="TEXT" , nullable=false)
+	@Column(name="C_Description", length=10241024)
 	private String description; // 宣传内容(活动描述信息)
 
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}

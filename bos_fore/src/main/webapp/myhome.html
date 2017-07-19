@@ -1,4 +1,19 @@
 <link rel="stylesheet" type="text/css" href="css/stylemyhome.css">
+<script type="text/javascript">
+	
+	$(function(){
+		// 发送异步请求到服务器中的session中去获取登录用户的信息
+		$.ajax({
+			type:"post",
+			url:"./getSessionInfo.action",
+			async:true,
+			success:function(data){
+				$("#username").html("<font color='green'>"+data.telephone+"</font>");
+			}
+		});
+	});
+	
+</script>
 <div class="myhome">
 	<section class="bannerarea">
 		<div class="bannerimg"><img src="images/show/suyun/homebanner.png" class="img-responsive" alt="Responsive image"></div>
@@ -25,7 +40,7 @@
 				<div class="personinfo">
 					<div class="col-md-3  text-center model">
 						<img src="images/icon/suyun/photo.png" alt="我的头像" />
-						<p>13812345678</p>
+						<p id="username"></p>
 						<p>
 							<a href="" class="btn btn-warning">VIP俱乐部</a>
 						</p>

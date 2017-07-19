@@ -53,28 +53,108 @@
 			bosfore_app.controller("orderCtrl",["$scope",function($scope){
 			}]);
 			
+			// 分页显示控制器
+			bosfore_app.controller("ctrlRead", function($scope,$http){
+
+				$scope.currentPage = 1;
+				$scope.pageSize = 4;
+				$scope.totalCount = 0;
+				$scope.totalPages = 0;
+				$scope.perPage=5;
+				var half = Math.ceil($scope.perPage/2);
+				
+				$scope.selectPage = function(page){
+					$http({
+						method:'POST',
+						url:'findMainPromotions.action',
+						params:{
+							'page':page,
+							'rows':$scope.pageSize
+						}
+					}).success(function(data,status,header,config){
+						$scope.pageContent = data.pageContent;
+						$scope.totalCount = data.totalCount;
+						$scope.currentPage = page;
+						
+						var begin;
+						var end;
+						// 根据总记录数计算总页数
+						$scope.totalPages = Math.ceil($scope.totalCount / $scope.pageSize) ;
+						// 判断每次显示的页数(每次显示5页)是否小于总页数,
+						if($scope.totalPages < $scope.perPage){
+							// 直接显示一到总页数
+							begin = 1;
+							end = $scope.totalPages;
+						}else{
+							if(page < half){
+								begin = 1;
+								end = $scope.perPage;
+							}else{
+								if(page + half < $scope.totalPages){
+									begin = page - half;
+									end = page + half;
+								}else{
+									begin=$scope.totalPages - $scope.perPage;
+									end=$scope.totalPages;
+								}
+							}
+						}
+						// 页码显示范围
+						$scope.pageList= new Array();
+						for(var i = begin; i<=end; i++){
+							$scope.pageList.push(i);
+						}
+					}).error(function(data,status,header,config){
+						alert("促销商品信息加载失败!")
+					});
+				}
+				// 上一页 
+				$scope.prev = function(){
+					if($scope.currentPage > 1){
+						$scope.selectPage($scope.currentPage - 1);
+					}
+				}
+				// 下一页
+				$scope.next= function(){
+					if($scope.currentPage < $scope.totalPages){
+						$scope.selectPage($scope.currentPage + 1);
+					}
+				}
+				// 当前页
+				$scope.activePage = function(page){
+					return $scope.currentPage == page;
+				}
+				// 第一次加载时调用
+				$scope.selectPage(1);
+			
+			});
 			// 主页控制器
 			bosfore_app.controller("PromotionCtrl", function($scope, $http) {
+								
+				$scope.currentPage = 1;
+				$scope.pageSize = 4;
+				$scope.totalCount = 0;
+				$scope.totalPages = 0;
+				$scope.perPage=5;
+				var half = Math.ceil($scope.perPage/2);
+				
+				// 加载主页的促销商品的请求
 				$http({
 					method:'POST',
 					url:'findMainPromotions.action',
 					params:{
-						page:1,
-						rows:4
+						'page':$scope.currentPage,
+						'rows':$scope.pageSize
 					}
 				}).success(function(data,status,header,config){
-					alert(data);
-					/*$scope.pageContent = data.pageContent;
-					$scope.totalCount = data.totalCount;*/
+					$scope.pageContent = data.pageContent;
+					$scope.totalCount = data.totalCount;
 				}).error(function(data,status,header,config){
-					
+					alert("促销商品信息加载失败!")
 				});
+				
 			});
 		</script>
-		<script src="js/self/page.js"></script>
-
-	
-
 	</head>
 
 	<body ng-app="bosfore_app">

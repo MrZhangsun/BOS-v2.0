@@ -45,4 +45,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
         Customer findByTelephone(String telephone);
 
+        /**
+         * 用户登录
+         * 
+         * @param telephone 用户名(手机号)
+         * @param password 密码
+         * @return 用户对象
+         */
+        Customer findByTelephoneAndPassword(String telephone, String password);
+
 }

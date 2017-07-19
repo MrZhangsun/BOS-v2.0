@@ -12,6 +12,16 @@
 	  <listener>
 	        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	  </listener>
+	     <!-- CXFServlet -->
+       <servlet>
+           <servlet-name>cxfServlet</servlet-name>
+           <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+           <load-on-startup>1</load-on-startup>
+       </servlet>
+       <servlet-mapping>
+           <servlet-name>cxfServlet</servlet-name>
+           <url-pattern>/service/*</url-pattern>
+       </servlet-mapping>
 	  <!-- OpenSessionInView -->
 <!-- 	  <filter>
 	       <filter-name>OpenSessionInViewFilter</filter-name>
@@ -33,14 +43,5 @@
 	        过滤器放行，让cxf的过滤器去实现路径的分流 -->
 	        <url-pattern>*.action</url-pattern>
 	  </filter-mapping>
-	  <!-- CXFServlet -->
-	   <servlet>
-	       <servlet-name>cxfServlet</servlet-name>
-	       <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-	       <load-on-startup>1</load-on-startup>
-	   </servlet>
-	   <servlet-mapping>
-	       <servlet-name>cxfServlet</servlet-name>
-	       <url-pattern>/service/*</url-pattern>
-	   </servlet-mapping>
+
 </web-app>

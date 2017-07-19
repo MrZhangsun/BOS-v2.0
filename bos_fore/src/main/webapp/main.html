@@ -42,19 +42,20 @@
 		</div>
 
 		<div class="row" ng-controller="PromotionCtrl">
-			<div class="col-sm-6 col-md-3" ng-repeat="page in {{pageContent}}">
+			<div class="col-sm-6 col-md-3" ng-repeat="page in pageContent">
 				<div class="thumbnail">
-					<!--<img src="#" alt="活动一">
--->
+					<img src="{{page.titleImg}}" alt="活动一">
 					<div class="caption">
 						<p>{{page.title}}</p>
-						<p class="text-right status"><span>进行中</span></p>
+						<p class="text-right status">
+							<span ng-show="page.status == '1'">进行中</span>
+							<span ng-show="page.status == '2'">已结束</span>
+						</p>
 						<p class="text-right grey">{{page.startDate}}-{{page.endDate}}</p>
 						<p class="text-right grey">{{activeScope}}</p>
 					</div>
 				</div>
 			</div>
-			
 		</div>
 
 		<p class="text-center more">

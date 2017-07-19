@@ -77,4 +77,12 @@ public class CustomerServiceImpl implements CustomerServiceInter {
         public Customer findByTelephone(String telephone) {
                 return customerRepository.findByTelephone(telephone);
         }
+
+        /**
+         * @see cn.itcast.crm.cxf.service.inter.CustomerServiceInter#userLogin(String, String)
+         */
+        @Override
+        public Customer userLogin(String telephone, String password) {
+                return customerRepository.findByTelephoneAndPassword(telephone, password);
+        }
 }

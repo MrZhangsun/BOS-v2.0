@@ -20,8 +20,7 @@
     <!-- 扫描包 -->
     <context:component-scan base-package="cn.itcast.bos.web.action" />
     <!-- 队列连接工厂的连接目标 -->
-    <amq:connectionFactory id="amqConnectionFactory"
-        brokerURL="tcp://localhost:61616" userName="admin" password="admin" />
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="tcp://localhost:61616" userName="admin" password="admin" />
 
     <!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
     <bean id="connectionFactory"
@@ -29,7 +28,7 @@
         <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
         <property name="targetConnectionFactory" ref="amqConnectionFactory"></property>
         <!-- 同上，同理 -->
-        <!-- <constructor-arg ref="amqConnectionFactory" /> -->
+
         <!-- Session缓存数量 -->
         <property name="sessionCacheSize" value="100" />
     </bean>

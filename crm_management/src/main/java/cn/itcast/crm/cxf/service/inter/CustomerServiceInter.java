@@ -85,5 +85,18 @@ public interface CustomerServiceInter {
         @Path("/findByTelephone/{telephone}")
         @Consumes({"application/xml", "application/json"})
         @Produces({"application/xml", "application/json"})
-        public Customer findByTelephone(@PathParam("telephone")String telephone);
+        public Customer findByTelephone(@PathParam("telephone") String telephone);
+        
+        /**
+         * 用户登录
+         * 
+         * @param telephone 用名(手机号)
+         * @param password 密码
+         * @return 用户对象
+         */
+        @GET
+        @Path("/userLogin")
+        @Consumes({"application/xml", "application/json"})
+        @Produces({"application/xml", "application/json"})
+        public Customer userLogin(@QueryParam("telephone") String telephone, @QueryParam("password") String password);
 }

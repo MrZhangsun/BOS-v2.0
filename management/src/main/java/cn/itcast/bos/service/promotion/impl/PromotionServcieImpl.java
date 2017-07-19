@@ -6,7 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import cn.itcast.bos.dao.promotion.impl.PromotionRepository;
+
+import cn.itcast.bos.dao.promotion.inter.PromotionRepository;
 import cn.itcast.bos.service.promotion.inter.PromotionServiceInter;
 import cn.itcast.maven.bos_domain.PageBean;
 import cn.itcast.maven.bos_domain.Promotion;
@@ -51,5 +52,13 @@ public class PromotionServcieImpl implements PromotionServiceInter {
                 pageBean.setTotalCount((int) promotions.getTotalElements());
                 pageBean.setPageContent(promotions.getContent());
                 return pageBean;
+        }
+
+        /**
+         * @see cn.itcast.bos.service.promotion.inter.PromotionServiceInter#findPromotionById(Integer)
+         */
+        @Override
+        public Promotion findPromotionById(Integer id) {
+                return promotionRepository.findOne(id);
         }
 }

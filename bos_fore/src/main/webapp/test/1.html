@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>速运快递</title>
+
+		<link rel="stylesheet" type="text/css" href="../css/styleindex.css">
+		<link rel="stylesheet" type="text/css" href="../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../css/nav.css">
+
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="../js/self/effect.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../js/angular.min.js"></script>
+		<script type="text/javascript" src="../js/angular-route.min.js"></script>
+		<script type="text/javascript" src="../js/self/page.js"></script>
+		<script type="text/javascript">
+			var testApp = angular.module("textApp",[]);
+			testApp.controller("AppController", function($scope,$http){
+				$http({
+					method:'GET',
+					url:'../data/promotion1.json'
+				}).success(function(data, status,header,config){
+					$scope.products = data.pageData;
+				});
+
+			});
+			
+			$(function(){
+				$("#pre").on("click", function(){
+					alert("shang")
+				});
+				$("#next").on("click", function(){
+					alert("next")
+				});
+			});
+		</script>
+	</head>
+
+	<body ng-app="textApp" ng-controller="AppController">
+		<table class="tab-content table">
+			<thead>
+				<tr>
+					<th>商品编号</th>
+					<th>商品名称</th>
+					<th>商品价格</th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="pro in products">
+				<tr>
+					<td>{{$index + 1}}</td>
+					<td>{{pro.title}}</td>
+					<td>{{pro.endDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<ul class="pagination pull-right">
+				<li><a href="javascript:void(0)" id="pre">上一页</a></li>
+				<li ng-repeat="page in products">
+					<a href="">{{$index + 1}}</a>
+				</li>
+				<li><a href="javascript:void(0)" id="next">下一页</a></li>
+			</ul>
+		</div>
+	</body>
+</html>

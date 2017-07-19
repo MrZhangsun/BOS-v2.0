@@ -13,7 +13,7 @@ bosfore_app.controller("ctrlRead", ['$scope', '$http', function($scope, $http) {
 	$scope.next = function() {
 		if($scope.currentPage < $scope.totalPages) {
 			$scope.selectPage($scope.currentPage + 1);
-		}
+		}pageList
 	}
 
 	$scope.selectPage = function(page) {

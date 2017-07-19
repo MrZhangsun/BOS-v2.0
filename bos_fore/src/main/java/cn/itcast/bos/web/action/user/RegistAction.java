@@ -1,4 +1,4 @@
-package cn.itcast.bos.web.action.base;
+package cn.itcast.bos.web.action.user;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

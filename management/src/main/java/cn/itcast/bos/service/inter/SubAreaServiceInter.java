@@ -2,6 +2,9 @@ package cn.itcast.bos.service.inter;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import cn.itcast.bos.domain.base.SubArea;
 
 /**
@@ -21,6 +24,19 @@ public interface SubAreaServiceInter {
 
         void deleteArea(String[] del);
 
-        List<SubArea> findSubArea();
+        /**
+         * 分页查询所有的分区信息
+         * @param pageable 
+         * 
+         * @return 分区数据
+         */
+        Page<SubArea> findSubArea(Pageable pageable);
+
+        /**
+         * 导出所有的分页数据
+         * 
+         * @return 导出分区数据
+         */
+        List<SubArea> findAllSubAreas();
         
 }

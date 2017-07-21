@@ -1,12 +1,13 @@
 package cn.itcast.bos.service.promotion.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import cn.itcast.bos.dao.promotion.inter.PromotionRepository;
 import cn.itcast.bos.service.promotion.inter.PromotionServiceInter;
 import cn.itcast.maven.bos_domain.PageBean;
@@ -60,5 +61,14 @@ public class PromotionServcieImpl implements PromotionServiceInter {
         @Override
         public Promotion findPromotionById(Integer id) {
                 return promotionRepository.findOne(id);
+        }
+
+        /**
+         * @see cn.itcast.bos.service.promotion.inter.PromotionServiceInter#updateStatus(DATE)
+         */
+        @Override
+        public void updateStatus(Date now) {
+                System.out.println("促销日期更新");
+                promotionRepository.updateStatus(now);
         }
 }

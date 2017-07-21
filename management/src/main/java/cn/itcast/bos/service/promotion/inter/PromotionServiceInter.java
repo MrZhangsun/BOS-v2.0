@@ -1,5 +1,6 @@
 package cn.itcast.bos.service.promotion.inter;
 
+import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -53,4 +54,11 @@ public interface PromotionServiceInter {
         @Consumes({"application/xml", "application/json"})
         @Produces({"application/xml", "application/json"})
         Promotion findPromotionById(@PathParam("id") Integer id);
+
+        /**
+         * 定时更新商品的促销状态
+         * 
+         * @param date 当前时间
+         */
+        void updateStatus(Date now);
 }

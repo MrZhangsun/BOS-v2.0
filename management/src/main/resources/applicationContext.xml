@@ -76,4 +76,7 @@
         
         <!-- CXF服务配置 -->
         <import resource="applicationContext-cxf.xml"/>
+        
+        <!-- quartz配置 -->
+        <import resource="applicationContext-quartz.xml"/>
 </beans>

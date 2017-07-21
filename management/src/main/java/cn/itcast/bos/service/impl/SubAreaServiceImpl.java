@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +35,32 @@ public class SubAreaServiceImpl implements SubAreaServiceInter {
                 subAreaRepository.save(list);
         }
 
+        /**
+         * @see cn.itcast.bos.service.inter.SubAreaServiceInter#deleteArea(String[])
+         */
         @Override
         public void deleteArea(String[] del) {
-                // TODO Auto-generated method stub
-                
+                if (del != null) {
+                        for (String id :del) {
+                                subAreaRepository.delete(id);
+                        }
+                }
         }
 
+        /**
+         * @see cn.itcast.bos.service.inter.SubAreaServiceInter#findSubArea(Pageable)
+         */
         @Override
-        public List<SubArea> findSubArea() {
-                // TODO Auto-generated method stub
-                return null;
+        public Page<SubArea> findSubArea(Pageable pageable) {
+                return subAreaRepository.findAll(pageable);
+        }
+
+        /**
+         * @see cn.itcast.bos.service.inter.SubAreaServiceInter#findAllSubAreas()
+         */
+        @Override
+        public List<SubArea> findAllSubAreas() {
+                return subAreaRepository.findAll();
         }
 
 }

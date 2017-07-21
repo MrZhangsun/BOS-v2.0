@@ -16,25 +16,42 @@
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.portal.js"></script>
 		<script type="text/javascript" src="../../js/easyui/ext/jquery.cookie.js"></script>
 		<script src="../../js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/ocupload/jquery.ocupload-1.1.2.js"></script>
+		
 		<script type="text/javascript">
+			// 添加
 			function doAdd(){
 				$('#addWindow').window("open");
 			}
 			
+			// 修改
 			function doEdit(){
 				alert("修改...");
 			}
 			
+			// 删除
 			function doDelete(){
-				alert("删除...");
+				var selections = $("#grid").datagrid("getSelections");
+				if(selections.length > 0){
+					var ids = new Array();
+					for(var i=0; i<selections.length; i++){
+						ids.push(selections[i].id);
+					}
+					var dels = ids.join("-");
+					window.location.href="../../deleteSubArea.action?ids="+dels;
+				}else{
+					$.messager.alert("提示","没有选择任何记录!");
+				}
 			}
 			
+			// 条件查询
 			function doSearch(){
 				$('#searchWindow').window("open");
 			}
 			
+			// 倒出数据
 			function doExport(){
-				alert("导出");
+				window.location.href="../../exportSubAreaData.action";
 			}
 			
 			
@@ -63,9 +80,6 @@
 				id : 'button-import',
 				text : '导入',
 				iconCls : 'icon-redo',
-				handler : function(){
-					
-				}
 			},{
 				id : 'button-export',
 				text : '导出',
@@ -189,11 +203,37 @@
 					alert("执行查询...");
 				});
 				
+				// 导入数据
+				var flag = true;
+				$("#button-import").upload({
+			        action: '../../importSubArea.action',
+			        enctype: 'multipart/form-data', 
+			        autoSubmit: false, 
+			        onComplete: function() {
+			        	if(flag){
+			        		$.messager.progress('close');
+			        		$.messager.alert("提示","文件上传成功！","info");
+			        	}
+			        },
+			        onSelect: function() {
+			        	var regex = /^.*\.(xls|xlsx)$/;
+			        	var filename = this.filename();
+			        	if(regex.test(filename)){
+			        		this.submit();
+			        		flag = true;
+			        	}else{
+			        		flag = false;
+			        		$.messager.alert("提示","不支持该类型文件上传！","info");
+			        		return;
+			        	}
+			        }
+				});
+				
+				// 双击表格
+				function doDblClickRow(){
+					
+				}
 			});
-		
-			function doDblClickRow(){
-				alert("双击表格数据...");
-			}
 		</script>
 	</head>
 

@@ -30,8 +30,8 @@ import cn.itcast.maven.bos_domain.Constant;
 /**
  * 用户登录
  *
- * @author 长孙建坤  18092853734
- * @version 1.0 ，2017年7月18日  下午1:57:11
+ * @author 长孙建坤 18092853734
+ * @version 1.0 ，2017年7月18日 下午1:57:11
  */
 @ParentPackage("json-default")
 @Namespace("/")
@@ -41,12 +41,12 @@ import cn.itcast.maven.bos_domain.Constant;
 public class Login extends BaseAction<Customer> {
 
         private static final long serialVersionUID = 1L;
-        
+
         @Resource
         private JmsTemplate jmsQueueTemplate;
-        
+
         private String recordUserName;
-        
+
         public void setRecordUserName(String recordUserName) {
                 this.recordUserName = recordUserName;
         }
@@ -58,45 +58,76 @@ public class Login extends BaseAction<Customer> {
         }
 
         /**
+         * 登录方式的判断标志
+         */
+        private String article;
+
+        public void setArticle(String article) {
+                this.article = article;
+        }
+
+        /**
          * 用户名密码登录
          * 
          * @return
          */
-        @Action(value="login", results={
-                        @Result(name="success", location="index.html#/myhome", type="redirect"),
-                        @Result(name="login", location="login.html", type="redirect")})
+        @Action(value = "login", results = {
+                        @Result(name = "success", location = "index.html#/myhome", type = "redirect"),
+                        @Result(name = "login", location = "login.html", type = "redirect") })
         public String login() {
-                Customer customer = WebClient.create(Constant.CRM_MANAGEMENT_URL+
-                                "/userLogin?telephone="+model.getUsername()+"&password="+model.getPassword())
-                                .accept(MediaType.APPLICATION_JSON).get(Customer.class);
-                
-                if (customer != null) {
-                        // 记住用户名
-                        if ("on".equals(recordUserName)) {
-                                ServletActionContext.getRequest().getSession().setAttribute("recordUserName", customer.getTelephone());
+                Customer customer;
+                if (article != null && "0".equals(article)) {
+                        customer = WebClient
+                                        .create(Constant.CRM_MANAGEMENT_URL + "/userPasswordLogin?telephone="
+                                                        + model.getUsername() + "&password=" + model.getPassword())
+                                        .accept(MediaType.APPLICATION_JSON).get(Customer.class);
+                        if (customer != null) {
+                                // 记住用户名
+                                if ("on".equals(recordUserName)) {
+                                        ServletActionContext.getRequest().getSession().setAttribute("recordUserName",
+                                                        customer.getTelephone());
+                                }
+                                // 将用户的验证码存到session中去
+                                ServletActionContext.getRequest().getSession().setAttribute("checkCode", checkCode);
+                                // 将登录成功的信息存放到session中
+                                ServletActionContext.getRequest().getSession().setAttribute("loginedUser", customer);
+                                return SUCCESS;
+                        } else {
+                                // 登录失败将用户的信息存放到cookie中
+                                Cookie cookie = new Cookie("loginFail", "0");
+                                cookie.setPath(ServletActionContext.getRequest().getContextPath());
+                                ServletActionContext.getResponse().addCookie(cookie);
+                                return LOGIN;
                         }
-                        // 将用户的验证码存到session中去
-                        ServletActionContext.getRequest().getSession().setAttribute("checkCode", checkCode);
-                        // 将登录成功的信息存放到session中
-                        ServletActionContext.getRequest().getSession().setAttribute("loginedUser", customer);
-                        return SUCCESS;
                 } else {
-                        // 登录失败将用户的信息存放到cookie中
-                        Cookie cookie = new Cookie("loginFail", "0");
-                        cookie.setPath(ServletActionContext.getRequest().getContextPath());
-                        ServletActionContext.getResponse().addCookie(cookie);
-                        return LOGIN;
+                         customer = WebClient
+                                        .create(Constant.CRM_MANAGEMENT_URL + "/findByTelephone/"+model.getTelephone())
+                                        .accept(MediaType.APPLICATION_JSON).get(Customer.class);
+                         if (customer != null) {
+                                 // 将用户的验证码存到session中去
+                                 ServletActionContext.getRequest().getSession().setAttribute("checkCode", checkCode);
+                                 // 将登录成功的信息存放到session中
+                                 ServletActionContext.getRequest().getSession().setAttribute("loginedUser", customer);
+                                 return SUCCESS;
+                         } else {
+                                 // 登录失败将用户的信息存放到cookie中
+                                 Cookie cookie = new Cookie("loginFail", "2");
+                                 cookie.setPath(ServletActionContext.getRequest().getContextPath());
+                                 ServletActionContext.getResponse().addCookie(cookie);
+                                 return LOGIN;
+                         }
                 }
         }
-        
+
         /**
          * 用户登录信息的异步加载
          * 
          * @return 跳转路径
          */
-        @Action(value="getSessionInfo", results={@Result(name="success", type="json")})
+        @Action(value = "getSessionInfo", results = { @Result(name = "success", type = "json") })
         public String getSessionInfo() {
-                Customer loginedUser = (Customer) ServletActionContext.getRequest().getSession().getAttribute("loginedUser");
+                Customer loginedUser = (Customer) ServletActionContext.getRequest().getSession()
+                                .getAttribute("loginedUser");
                 if (loginedUser != null) {
                         ServletActionContext.getContext().getValueStack().push(loginedUser);
                 }
@@ -108,9 +139,10 @@ public class Login extends BaseAction<Customer> {
          * 
          * @return 跳转路径
          */
-        @Action(value="getRecordeUserName", results={@Result(name="success", type="json")})
+        @Action(value = "getRecordeUserName", results = { @Result(name = "success", type = "json") })
         public String getRecordeUserName() {
-                String username = (String) ServletActionContext.getRequest().getSession().getAttribute("recordUserName");
+                String username = (String) ServletActionContext.getRequest().getSession()
+                                .getAttribute("recordUserName");
                 if (username != null) {
                         ServletActionContext.getContext().getValueStack().push(username);
                         return SUCCESS;
@@ -118,13 +150,13 @@ public class Login extends BaseAction<Customer> {
                         return NONE;
                 }
         }
-        
+
         /**
          * 生成验证码
          * 
          * @return
          */
-        @Action(value="getCheckImg")
+        @Action(value = "getCheckImg")
         public String getCheckImg() {
                 try {
                         CheckImgUtil.getImgeCode(ServletActionContext.getRequest(), ServletActionContext.getResponse());
@@ -135,9 +167,9 @@ public class Login extends BaseAction<Customer> {
                 }
                 return NONE;
         }
-        
+
         private String imgCode;
-        
+
         public void setImgCode(String imgCode) {
                 this.imgCode = imgCode;
         }
@@ -147,10 +179,11 @@ public class Login extends BaseAction<Customer> {
          * 
          * @return 跳转路径
          */
-        @Action(value="checkCodeImg", results={@Result(name="success", type="json")})
+        @Action(value = "checkCodeImg", results = { @Result(name = "success", type = "json") })
         public String checkCodeImg() {
-                StringBuilder coder =  (StringBuilder) ServletActionContext.getRequest().getSession().getAttribute("coder");
-                
+                StringBuilder coder = (StringBuilder) ServletActionContext.getRequest().getSession()
+                                .getAttribute("coder");
+
                 HashMap<String, Integer> map = new HashMap<String, Integer>();
                 if (coder != null && coder.toString().equals(imgCode)) {
                         map.put("result", 1);
@@ -161,18 +194,18 @@ public class Login extends BaseAction<Customer> {
                 }
                 return SUCCESS;
         }
-        
+
         /**
          * 发送短信验证码
          * 
          * @return 跳转路径
          */
-        @Action(value="sendCheckCode")
+        @Action(value = "sendCheckCode")
         public void sendCheckCode() {
                 final String randomCode = RandomStringUtils.randomNumeric(6);
                 ServletActionContext.getRequest().getSession().setAttribute("randomCode", randomCode);
                 jmsQueueTemplate.send("loginRandomCode", new MessageCreator() {
-                        
+
                         @Override
                         public Message createMessage(Session session) throws JMSException {
                                 MapMessage mapMessage = session.createMapMessage();
@@ -182,13 +215,13 @@ public class Login extends BaseAction<Customer> {
                         }
                 });
         }
-        
+
         /**
          * 手机短信验证码的校验
          * 
          * @return 跳转视图
          */
-        @Action(value="submitCheckCode", results={@Result(name="success", type="json")})
+        @Action(value = "submitCheckCode", results = { @Result(name = "success", type = "json") })
         public String submitCheckCode() {
                 String randomCode = (String) ServletActionContext.getRequest().getSession().getAttribute("randomCode");
                 HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -201,18 +234,5 @@ public class Login extends BaseAction<Customer> {
                 }
                 return SUCCESS;
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
 }

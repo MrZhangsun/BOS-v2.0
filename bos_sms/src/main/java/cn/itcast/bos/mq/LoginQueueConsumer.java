@@ -22,7 +22,7 @@ public class LoginQueueConsumer implements MessageListener{
         @Override
         public void onMessage(Message message) {
                 MapMessage msg = (MapMessage) message;
-                try {
+               /* try {
                         String telephone = msg.getString("telephone");
                         String checkCode = msg.getString("randomCode");
                         String content = "尊敬的用户,您本次请求的验证码是:"+ checkCode + ",请在30分钟内完成校验. 请妥善保管!";
@@ -32,18 +32,18 @@ public class LoginQueueConsumer implements MessageListener{
                         }
                 } catch (JMSException | UnsupportedEncodingException e) {
                         e.printStackTrace();
-                }
-               /* try {
+                }*/
+                try {
                         String telephone = msg.getString("telephone");
-                        String checkCode = msg.getString("checkCode");
-                        String content = "尊敬的用户,您本次请求的验证码是:"+ checkCode + ",请在30分钟内完成校验. 请妥善保管!";
+                        String randomCode = msg.getString("randomCode");
+                        String content = "尊敬的用户,您本次请求的验证码是:"+ randomCode + ",请在30分钟内完成校验. 请妥善保管!";
                         String result = "000/xxx";
                         if (result.startsWith("000")) {
                                 System.out.println(content + ",电话号码是:" +telephone);
                         }
                 } catch (JMSException e) {
                         e.printStackTrace();
-                }*/
+                }
         }
 
 }

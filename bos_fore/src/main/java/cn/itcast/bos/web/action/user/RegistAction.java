@@ -1,6 +1,7 @@
 package cn.itcast.bos.web.action.user;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.jms.JMSException;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 
 import cn.itcast.bos.web.action.common.BaseAction;
 import cn.itcast.crm.domain.Customer;
+import cn.itcast.maven.bos_domain.Constant;
 
 /**
  * 用户注册模块表示层
@@ -176,8 +178,29 @@ public class RegistAction  extends BaseAction<Customer>{
                         }
                 }
                 // 调用crm系统修改用户的激活状态
-                
                 return NONE;
+        }
+        
+        /**
+         * 用户名是否存在的查询
+         * 
+         * @return  跳转视图
+         */
+        @Action(value="isExist", results={@Result(name="success", type="json")})
+        public String isExist() {
+                String telephone = model.getTelephone();
+                if (telephone != null || telephone != "") {
+                        HashMap<String, Integer> map = new HashMap<String, Integer>();
+                        Customer customer = WebClient.create(Constant.CRM_MANAGEMENT_URL+"/findByTelephone/"+telephone)
+                        .accept(MediaType.APPLICATION_JSON).get(Customer.class);
+                        if (customer != null) {
+                               map.put("result", 1);
+                        } else {
+                                map.put("result", 0);
+                        }
+                        ServletActionContext.getContext().getValueStack().push(map);
+                }
+                return SUCCESS;
         }
         
 }

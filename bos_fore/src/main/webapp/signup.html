@@ -60,8 +60,26 @@
 				// 验证手机号
 				var regex = /^1(3|4|7|8)\d{9}$/;
 				if(regex.test(telephone)){
+					var flag = false;
 					$("#phoneSpan").html("");
-					return true;
+					$.ajax({
+						type:"post",
+						url:"./isExist.action",
+						async:false,
+						data:{
+							'telephone':telephone
+						},
+						success:function(data){
+							if(data.result === 1){
+								$("#phoneSpan").html("<font color='red'>用户名已经存在</font>");
+								flag = false;
+							}else if(data.result === 0){
+								$("#phoneSpan").html("<font color='green'>用户名可以使用</font>");
+								flag = true;
+							}
+						}
+					});
+					return flag;
 				}else{
 					$("#regist").prop("disabled",false);
 					$("#phoneSpan").html("<font style='line-height=34px;' color='red'>请输入正确的手机号码</font>");

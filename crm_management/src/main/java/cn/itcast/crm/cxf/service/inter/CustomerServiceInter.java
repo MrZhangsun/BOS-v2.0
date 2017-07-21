@@ -88,14 +88,14 @@ public interface CustomerServiceInter {
         public Customer findByTelephone(@PathParam("telephone") String telephone);
         
         /**
-         * 用户登录
+         * 用户密码登录
          * 
          * @param telephone 用名(手机号)
          * @param password 密码
          * @return 用户对象
          */
         @GET
-        @Path("/userLogin")
+        @Path("/userPasswordLogin")
         @Consumes({"application/xml", "application/json"})
         @Produces({"application/xml", "application/json"})
         public Customer userLogin(@QueryParam("telephone") String telephone, @QueryParam("password") String password);

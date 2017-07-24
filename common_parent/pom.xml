@@ -34,7 +34,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <artifactId>shiro-all</artifactId>
             <version>${shiro.version}</version>
         </dependency>
-
         <!-- spring 框架 -->
         <dependency>
             <groupId>org.springframework</groupId>

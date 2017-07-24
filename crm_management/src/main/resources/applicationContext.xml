@@ -19,22 +19,11 @@
 
     <!-- 加载properties文件 -->
     <context:property-placeholder location="classpath:config.properties" />
-    
-    <!-- crm系统服务器配置 -->
-    <jaxrs:server id="userService" address="/userService">
-        <jaxrs:serviceBeans>
-            <bean class="cn.itcast.crm.cxf.service.impl.CustomerServiceImpl"/>
-        </jaxrs:serviceBeans>
-        <jaxrs:inInterceptors>
-            <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
-        </jaxrs:inInterceptors>
-        <jaxrs:outInterceptors>
-            <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
-        </jaxrs:outInterceptors>
-    </jaxrs:server>
-    
+
     <!-- 引入 数据库连接配置文件  -->
     <import resource="applicationContext-dataSource.xml"/>
     
+    <!-- 引入cxf配置 -->
+    <import resource="applicationContext-cxf.xml"/>
     
 </beans>

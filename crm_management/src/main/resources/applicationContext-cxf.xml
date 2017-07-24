@@ -13,17 +13,30 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
-
-    <!-- 扫描 @Server @Controller @Repository -->
-    <context:component-scan base-package="cn.itcast.crm.cxf"/>
-
-    <!-- 加载properties文件 -->
-    <context:property-placeholder location="classpath:config.properties" />
-
-    <!-- 引入 数据库连接配置文件  -->
-    <import resource="applicationContext-dataSource.xml"/>
     
-    <!-- 引入cxf配置 -->
-    <import resource="applicationContext-cxf.xml"/>
+    <!-- crm系统服务器配置 -->
+    <jaxrs:server id="userService" address="/userService">
+        <jaxrs:serviceBeans>
+            <bean class="cn.itcast.crm.cxf.service.impl.CustomerServiceImpl"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:inInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+        </jaxrs:outInterceptors>
+    </jaxrs:server>
     
+    <!-- 订单模块cxf -->
+        <jaxrs:server id="orderService" address="/orderService">
+            <jaxrs:serviceBeans>
+                <bean class="cn.itcast.crm.cxf.service.impl.OrderServiceImpl"/>
+            </jaxrs:serviceBeans>
+        <jaxrs:inInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+        </jaxrs:outInterceptors>
+    </jaxrs:server>
 </beans>

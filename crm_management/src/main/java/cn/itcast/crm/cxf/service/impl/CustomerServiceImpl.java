@@ -86,4 +86,12 @@ public class CustomerServiceImpl implements CustomerServiceInter {
                 return customerRepository.findByTelephoneAndPassword(telephone, password);
         }
 
+        /**
+         * @see cn.itcast.crm.cxf.service.inter.CustomerServiceInter#findFixedAreaByAddress(String)
+         */
+        @Override
+        public String findFixedAreaByAddress(String address) {
+                return customerRepository.findFixedareaIdByAddress();
+        }
+
 }

@@ -9,9 +9,9 @@ package cn.itcast.maven.bos_domain;
 public class Constant {
         
         public static final String MANAGEMENT= "http://localhost:8889";
-        public static final String MANAGEMENT_URL = "http://localhost:8889/management/service/promotionService";
+        public static final String MANAGEMENT_URL = "http://localhost:8889/management/service";
         public static final String CRM_MANAGEMENT = "http://localhost:8888";
-        public static final String CRM_MANAGEMENT_URL = "http://localhost:8888/crm_management/service/userService";
+        public static final String CRM_MANAGEMENT_URL = "http://localhost:8888/crm_management/service";
         public static final String BOS_FORE = "http://localhost:9999";
         public static final String BOS_FORE_URL = "http://localhost:9999/bos_fore";
 }

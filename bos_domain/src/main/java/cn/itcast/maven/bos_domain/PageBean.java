@@ -14,6 +14,7 @@ import org.apache.poi.ss.formula.functions.T;
  * @version 1.0 ，2017年7月17日  下午2:50:30
  * @param <T>
  */
+@SuppressWarnings("hiding")
 @XmlRootElement(name="pageBean")
 @XmlSeeAlso(Promotion.class)
 public class PageBean<T> {

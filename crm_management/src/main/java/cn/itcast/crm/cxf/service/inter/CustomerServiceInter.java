@@ -99,4 +99,17 @@ public interface CustomerServiceInter {
         @Consumes({"application/xml", "application/json"})
         @Produces({"application/xml", "application/json"})
         public Customer userLogin(@QueryParam("telephone") String telephone, @QueryParam("password") String password);
+        
+        /**
+         * 根据客户的下单地址查询对应的定区
+         * 
+         * @param address 下单地址
+         * @return 定区信息
+         */
+        @GET
+        @Path("/customer/findFixedAreaByAddress")
+        @Consumes({"application/xml", "application/json"})
+        @Produces({"application/xml", "application/json"})
+        public String findFixedAreaByAddress(@QueryParam("address") String address);
+        
 }

@@ -27,25 +27,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import cn.itcast.bos.domain.base.SubArea;
-import cn.itcast.bos.service.inter.SubAreaServiceInter;
+import cn.itcast.bos.service.base.inter.SubAreaServiceInter;
 import cn.itcast.bos.web.action.common.BaseAction;
 
 @Controller
 @Scope("prototype")
 @ParentPackage("json-default")
 @Namespace("/")
-public class SubAreaAction extends BaseAction<SubArea>{
+public class SubAreaAction extends BaseAction<SubArea> {
 
         private static final long serialVersionUID = 1L;
-        
+
         @Resource
         private SubAreaServiceInter subAreaServiceImpl;
-        
+
         // 文件上传
         private File file;
-        
+
         private String fileFileName;
-        
+
         public void setFile(File file) {
                 this.file = file;
         }
@@ -57,7 +57,7 @@ public class SubAreaAction extends BaseAction<SubArea>{
         /**
          * 导出分区数据
          */
-        @Action(value="exportSubAreaData")
+        @Action(value = "exportSubAreaData")
         public void exportSubAreaData() {
                 List<SubArea> subAreas = subAreaServiceImpl.findAllSubAreas();
                 XSSFWorkbook xworkbook = new XSSFWorkbook();
@@ -73,20 +73,20 @@ public class SubAreaAction extends BaseAction<SubArea>{
                 row.createCell(7).setCellValue("位置信息");
                 if (subAreas.size() > 0) {
                         // 循环给表单添加信息
-                        for (int i=0;i<subAreas.size();i++) {
+                        for (int i = 0; i < subAreas.size(); i++) {
                                 SubArea subArea = subAreas.get(i);
-                                row = xsheet.createRow(i+1);
-                               row.createCell(0).setCellValue(subArea.getId());
+                                row = xsheet.createRow(i + 1);
+                                row.createCell(0).setCellValue(subArea.getId());
                                 row.createCell(1).setCellValue(subArea.getFixedArea().getId());
                                 row.createCell(2).setCellValue(subArea.getArea().getId());
                                 row.createCell(3).setCellValue(subArea.getKeyWords());
                                 row.createCell(4).setCellValue(subArea.getStartNum());
                                 row.createCell(5).setCellValue(subArea.getEndNum());
-                                row.createCell(6).setCellValue(subArea.getSingle()+"");
+                                row.createCell(6).setCellValue(subArea.getSingle() + "");
                                 row.createCell(7).setCellValue(subArea.getAssistKeyWords());
-                               }
+                        }
                 }
-                
+
                 // 设置两个头一个流
                 HttpServletResponse response = ServletActionContext.getResponse();
                 response.setContentType("application/octet-stream");
@@ -97,16 +97,18 @@ public class SubAreaAction extends BaseAction<SubArea>{
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
-                
+
         }
+
+        
         /**
          * 导入分区
          * 
          * @return 跳转路径
          */
-        @Action(value="importSubArea")
+        @Action(value = "importSubArea")
         private String importSubArea() {
-                if (fileFileName != null || "".equals(fileFileName) ) {
+                if (fileFileName != null || "".equals(fileFileName)) {
                         String ext = fileFileName.substring(fileFileName.lastIndexOf("."));
                         XSSFWorkbook xworkbook = null;
                         HSSFWorkbook hworkbook = null;
@@ -141,27 +143,26 @@ public class SubAreaAction extends BaseAction<SubArea>{
                                 e.printStackTrace();
                         } catch (IOException e) {
                                 e.printStackTrace();
-                        } 
+                        }
                 }
                 return SUCCESS;
         }
-        
+
         /**
          * 分页查询所有的分区数据
          * 
          * @return 跳转路径
          */
-        @Action(value="findSubArea", results={@Result(name="success", type="json")})
+        @Action(value = "findSubArea", results = { @Result(name = "success", type = "json") })
         public String findSubArea() {
                 Pageable pageable = new PageRequest(page - 1, rows);
                 Page<SubArea> subAreas = subAreaServiceImpl.findSubArea(pageable);
                 pushToStack(subAreas);
                 return SUCCESS;
         }
-        
+
         public String ids;
-        
-        
+
         public void setIds(String ids) {
                 this.ids = ids;
         }
@@ -171,8 +172,8 @@ public class SubAreaAction extends BaseAction<SubArea>{
          * 
          * @return 跳转路径
          */
-         @Action(value="deleteSubArea", 
-                         results={@Result(name="success", location="./html/base/sub_area.html", type="redirect")})
+        @Action(value = "deleteSubArea", results = {
+                        @Result(name = "success", location = "./html/base/sub_area.html", type = "redirect") })
         public String deleteArea() {
                 String[] del = ids.split("-");
                 subAreaServiceImpl.deleteArea(del);

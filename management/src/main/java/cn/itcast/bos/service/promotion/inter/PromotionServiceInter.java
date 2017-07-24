@@ -61,4 +61,11 @@ public interface PromotionServiceInter {
          * @param date 当前时间
          */
         void updateStatus(Date now);
+
+        /**
+         * 逻辑删除促销商品
+         * 
+         * @param ids
+         */
+        void deletePromotions(String ids);
 }

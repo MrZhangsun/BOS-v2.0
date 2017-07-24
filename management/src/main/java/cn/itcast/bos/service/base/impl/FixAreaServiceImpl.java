@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl;
+package cn.itcast.bos.service.base.impl;
 
 import javax.annotation.Resource;
 
@@ -14,7 +14,7 @@ import cn.itcast.bos.dao.inter.TakeTimeRepository;
 import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.FixedArea;
 import cn.itcast.bos.domain.base.TakeTime;
-import cn.itcast.bos.service.inter.FixAreaServiceInter;
+import cn.itcast.bos.service.base.inter.FixAreaServiceInter;
 
 /**
  * 定区的业务层接口实现类
@@ -36,7 +36,7 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
          private TakeTimeRepository takeTimeRepository;
          
          /**
-          * @see cn.itcast.bos.service.inter.FixAreaServiceInter#addOrUpdateFixArea(FixedArea)
+          * @see cn.itcast.bos.service.base.inter.FixAreaServiceInter#addOrUpdateFixArea(FixedArea)
           */
         @Override
         public void addOrUpdateFixArea(FixedArea model) {
@@ -44,7 +44,7 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.FixAreaServiceInter#updateFixedArea(String)
+         * @see cn.itcast.bos.service.base.inter.FixAreaServiceInter#updateFixedArea(String)
          */
         @Override
         public FixedArea updateFixedArea(String id) {
@@ -52,7 +52,7 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.FixAreaServiceInter#fixedAreaQuery(Specification, Pageable)
+         * @see cn.itcast.bos.service.base.inter.FixAreaServiceInter#fixedAreaQuery(Specification, Pageable)
          */
         @Override
         public Page<FixedArea> fixedAreaQuery(Specification<FixedArea> specification, Pageable pageable) {
@@ -60,7 +60,7 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.FixAreaServiceInter#deleteFixedArea(String[])
+         * @see cn.itcast.bos.service.base.inter.FixAreaServiceInter#deleteFixedArea(String[])
          */
         @Override
         public void deleteFixedArea(String[] ids) {
@@ -72,7 +72,7 @@ public class FixAreaServiceImpl implements FixAreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.FixAreaServiceInter#associateToFixedArea(FixedArea, Integer, Integer)
+         * @see cn.itcast.bos.service.base.inter.FixAreaServiceInter#associateToFixedArea(FixedArea, Integer, Integer)
          */
         @Override
         public void associateToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId) {

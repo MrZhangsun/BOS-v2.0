@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 
 import cn.itcast.bos.domain.base.TakeTime;
-import cn.itcast.bos.service.inter.TakeTimeServiceInter;
+import cn.itcast.bos.service.base.inter.TakeTimeServiceInter;
 import cn.itcast.bos.web.action.common.BaseAction;
 
 /**

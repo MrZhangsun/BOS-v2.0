@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import cn.itcast.bos.domain.base.FixedArea;
-import cn.itcast.bos.service.inter.FixAreaServiceInter;
+import cn.itcast.bos.service.base.inter.FixAreaServiceInter;
 import cn.itcast.bos.web.action.common.BaseAction;
 import cn.itcast.crm.domain.Customer;
 

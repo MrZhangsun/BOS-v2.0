@@ -17,7 +17,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import cn.itcast.bos.domain.base.Standard;
-import cn.itcast.bos.service.inter.StandardServiceInter;
+import cn.itcast.bos.service.base.inter.StandardServiceInter;
 
 /**
  * 基础数据模块表示层

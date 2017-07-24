@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.inter;
+package cn.itcast.bos.service.base.inter;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl;
+package cn.itcast.bos.service.base.impl;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.bos.dao.inter.TakeTimeRepository;
 import cn.itcast.bos.domain.base.TakeTime;
-import cn.itcast.bos.service.inter.TakeTimeServiceInter;
+import cn.itcast.bos.service.base.inter.TakeTimeServiceInter;
 
 /**
  * 排班模块业务层接口
@@ -26,7 +26,7 @@ public class TakeTimeServiceImpl implements TakeTimeServiceInter {
         @Resource
         private TakeTimeRepository takeTimeRepository;
         /**
-         * @see cn.itcast.bos.service.inter.TakeTimeServiceInter#getTakeTimeTable(Pageable)
+         * @see cn.itcast.bos.service.base.inter.TakeTimeServiceInter#getTakeTimeTable(Pageable)
          */
         @Override
         public Page<TakeTime> getTakeTimeTable(Pageable pageable) {
@@ -34,7 +34,7 @@ public class TakeTimeServiceImpl implements TakeTimeServiceInter {
         }
         
         /**
-         * @see cn.itcast.bos.service.inter.TakeTimeServiceInter#save(TakeTime)
+         * @see cn.itcast.bos.service.base.inter.TakeTimeServiceInter#save(TakeTime)
          */
         @Override
         public void save(TakeTime model) {
@@ -42,7 +42,7 @@ public class TakeTimeServiceImpl implements TakeTimeServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.TakeTimeServiceInter#searchTakeTime(Integer)
+         * @see cn.itcast.bos.service.base.inter.TakeTimeServiceInter#searchTakeTime(Integer)
          */
         @Override
         public TakeTime searchTakeTime(Integer id) {
@@ -50,7 +50,7 @@ public class TakeTimeServiceImpl implements TakeTimeServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.TakeTimeServiceInter#deleteTakeTimes(String)
+         * @see cn.itcast.bos.service.base.inter.TakeTimeServiceInter#deleteTakeTimes(String)
          */
         @Override
         public void deleteTakeTimes(String ids) {
@@ -61,7 +61,7 @@ public class TakeTimeServiceImpl implements TakeTimeServiceInter {
         }
         
         /**
-         * @see cn.itcast.bos.service.inter.TakeTimeServiceInter#findAll()
+         * @see cn.itcast.bos.service.base.inter.TakeTimeServiceInter#findAll()
          */
         @Override
         public List<TakeTime> findAll() {

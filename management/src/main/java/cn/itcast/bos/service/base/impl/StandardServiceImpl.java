@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl;
+package cn.itcast.bos.service.base.impl;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.bos.dao.inter.StandardRepository;
 import cn.itcast.bos.domain.base.Standard;
-import cn.itcast.bos.service.inter.StandardServiceInter;
+import cn.itcast.bos.service.base.inter.StandardServiceInter;
 
 /**
  * 派收标准业务层接口实现类
@@ -26,7 +26,7 @@ public class StandardServiceImpl implements StandardServiceInter {
         @Resource
         private StandardRepository standardRepository;
         /**
-         * @see cn.itcast.bos.service.inter.StandardServiceInter#standardSave(Standard)
+         * @see cn.itcast.bos.service.base.inter.StandardServiceInter#standardSave(Standard)
          */
         @Override
         public void standardSave(Standard standard) {
@@ -34,7 +34,7 @@ public class StandardServiceImpl implements StandardServiceInter {
         }
         
         /**
-         * @see cn.itcast.bos.service.inter.StandardServiceInter#pageQuery(Pageable)
+         * @see cn.itcast.bos.service.base.inter.StandardServiceInter#pageQuery(Pageable)
          */
         @Override
         public Page<Standard> pageQuery(Pageable pageable) {
@@ -42,7 +42,7 @@ public class StandardServiceImpl implements StandardServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.StandardServiceInter#rowUpdate(int)
+         * @see cn.itcast.bos.service.base.inter.StandardServiceInter#rowUpdate(int)
          */
         @Override
         public Standard rowUpdate(int id) {
@@ -50,7 +50,7 @@ public class StandardServiceImpl implements StandardServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.StandardServiceInter#findStandards()
+         * @see cn.itcast.bos.service.base.inter.StandardServiceInter#findStandards()
          */
         @Override
         public List<Standard> findStandards() {

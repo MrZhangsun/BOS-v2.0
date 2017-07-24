@@ -25,5 +25,14 @@ public interface PromotionRepository extends
         @Modifying
         void updateStatus(Date now);
 
+        /**
+         * 根据促销信息逻辑删除促销信息
+         * 
+         * @param parseInt
+         */
+        @Query(value="update Promotion set status = '0' where id =?", nativeQuery=false)
+        @Modifying
+        void deletePromotion(int parseInt);
+
 
 }

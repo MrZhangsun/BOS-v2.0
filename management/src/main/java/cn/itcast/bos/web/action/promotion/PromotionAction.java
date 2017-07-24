@@ -55,6 +55,20 @@ public class PromotionAction extends BaseAction<Promotion>{
                 this.imgFile = imgFile;
         }
 
+        // 促销信息的逻辑删除
+        private String ids;
+
+        public void setIds(String ids) {
+                this.ids = ids;
+        }
+
+        @Action(value="deletePromotions", 
+                        results={@Result(name="success", 
+                        location="./html/take_delivery/promotion.html", type="redirect")})
+        public String deletePromotions() {
+                promotionServiceInter.deletePromotions(ids);
+                return SUCCESS;
+        }
         /**
          * 文件上传
          * 
@@ -76,8 +90,8 @@ public class PromotionAction extends BaseAction<Promotion>{
                 }
                 
                 // 文件上传成功了,将url返回给浏览器
-                String contextPath = ServletActionContext.getRequest().getContextPath();
-                String url = contextPath + "/upload/image/" + uuid + ext;
+                String contextPath =ServletActionContext.getRequest().getContextPath();
+                String url = "http:localhost:8889/"+ contextPath + "/upload/image/" + uuid + ext;
                 HashMap<String, Object> hashMap = new HashMap<String, Object>();
                 hashMap.put("error", 0);
                 hashMap.put("url", url);
@@ -97,8 +111,8 @@ public class PromotionAction extends BaseAction<Promotion>{
                 ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
               // 根目录路径，可以指定绝对路径，比如 /var/www/attached/
                 String rootPath = ServletActionContext.getServletContext().getRealPath("/") + "upload/";
-                // 根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
-                String rootUrl  = ServletActionContext.getRequest().getContextPath() + "/upload/";
+                // 根目录URL，可以指定绝对路径，比如 http://localhost:8889/
+                String rootUrl  = "http://localhost:8889/"+ServletActionContext.getRequest().getContextPath() + "/upload/";
                 // 图片扩展名
                 String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
                 

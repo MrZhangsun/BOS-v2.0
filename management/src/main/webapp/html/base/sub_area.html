@@ -80,6 +80,27 @@
 				id : 'button-import',
 				text : '导入',
 				iconCls : 'icon-redo',
+				handler: function(){
+					$(this).upload({
+						name: 'file', 
+				        action: '../../importSubArea.action', 
+				        enctype: 'multipart/form-data', 
+				        autoSubmit: false, 
+				        onComplete: function() {
+				        	$.messager.alert("提示","文件上传成功！","info");
+				        },
+				        onSelect: function() {
+				        	var filename = this.filename();
+				        	// file.xls  *.
+				        	var regex = /^.*\.(xls|xlsx)$/;
+				        	if(regex.test(filename)){
+				        		this.submit();
+				        	}else{
+				        		$.messager.alert("提示","只能上传后缀名为xls或xlsx的文件");
+				        	}
+				        }
+					});
+				}
 			},{
 				id : 'button-export',
 				text : '导出',
@@ -202,38 +223,24 @@
 				$("#btn").click(function(){
 					alert("执行查询...");
 				});
-				
-				// 导入数据
-				var flag = true;
-				$("#button-import").upload({
-			        action: '../../importSubArea.action',
-			        enctype: 'multipart/form-data', 
-			        autoSubmit: false, 
-			        onComplete: function() {
-			        	if(flag){
-			        		$.messager.progress('close');
-			        		$.messager.alert("提示","文件上传成功！","info");
-			        	}
-			        },
-			        onSelect: function() {
-			        	var regex = /^.*\.(xls|xlsx)$/;
-			        	var filename = this.filename();
-			        	if(regex.test(filename)){
-			        		this.submit();
-			        		flag = true;
-			        	}else{
-			        		flag = false;
-			        		$.messager.alert("提示","不支持该类型文件上传！","info");
-			        		return;
-			        	}
-			        }
-				});
+
 				
 				// 双击表格
 				function doDblClickRow(){
 					
 				}
+				
+				// 表单提交
+				$("#save").on("blur", doSubmint);
 			});
+			// 表单提交之前执行的时间
+			function subAreaSubmit(data){
+				return false;
+			}
+			// 提交表单
+			function doSubmint(){
+				
+			}
 		</script>
 	</head>
 
@@ -250,7 +257,7 @@
 			</div>
 
 			<div style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form action="../../addSubArea.action" method="post" onsubmit="return subAreaSubmit(this)">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">分区信息</td>

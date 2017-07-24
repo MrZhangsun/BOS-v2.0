@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl;
+package cn.itcast.bos.service.base.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import cn.itcast.bos.dao.inter.CourierRepository;
 import cn.itcast.bos.domain.base.Courier;
-import cn.itcast.bos.service.inter.CourierServiceInter;
+import cn.itcast.bos.service.base.inter.CourierServiceInter;
 
 /**
  * 取派员模块业务层接口实现类
@@ -26,7 +26,7 @@ public class CourierServiceImpl implements CourierServiceInter {
         private CourierRepository courierRepository;
         
         /**
-         * @see cn.itcast.bos.service.inter.CourierServiceInter#findAll(Specification, Pageable)
+         * @see cn.itcast.bos.service.base.inter.CourierServiceInter#findAll(Specification, Pageable)
          */
         @Override
         public Page<Courier> findAll(Specification<Courier> specification, Pageable pageable) {
@@ -35,7 +35,7 @@ public class CourierServiceImpl implements CourierServiceInter {
 
         
         /**
-         * @see cn.itcast.bos.service.inter.CourierServiceInter#saveCourier(Courier)
+         * @see cn.itcast.bos.service.base.inter.CourierServiceInter#saveCourier(Courier)
          */
         @Override
         public void saveCourier(Courier courier) {
@@ -43,7 +43,7 @@ public class CourierServiceImpl implements CourierServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.CourierServiceInter#findOneCourier(int)
+         * @see cn.itcast.bos.service.base.inter.CourierServiceInter#findOneCourier(int)
          */
         @Override
         public Courier findOneCourier(int id) {
@@ -51,7 +51,7 @@ public class CourierServiceImpl implements CourierServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.CourierServiceInter#delBatch(String[])
+         * @see cn.itcast.bos.service.base.inter.CourierServiceInter#delBatch(String[])
          */
         @Override
         public void delOrRecoverBatch(String[] idStrs, String method) {
@@ -65,7 +65,7 @@ public class CourierServiceImpl implements CourierServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.CourierServiceInter#findAssociationCourier()
+         * @see cn.itcast.bos.service.base.inter.CourierServiceInter#findAssociationCourier()
          */
         @Override
         public List<Courier> findAssociationCourier() {

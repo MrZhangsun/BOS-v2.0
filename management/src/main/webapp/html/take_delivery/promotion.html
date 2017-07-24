@@ -65,7 +65,14 @@
 						}, {
 							field: 'status',
 							title: '状态',
-							width: 100
+							width: 100,
+							formatter : function(value,row,index){
+								if(value == 0){
+									return value = "已过期";
+								}else{
+									return value = "进行中";
+								}
+							}
 						}]
 					],
 					pagination: true,
@@ -85,14 +92,51 @@
 							text: '修改',
 							iconCls: 'icon-edit',
 							handler: function() {
-								alert('修改宣传任务');
+								var selections = $("#grid").datagrid("getSelections");
+								if(selections.length == 1){
+									var id = selections[0].id;
+									var params;
+									$.ajax({
+										type:"post",
+										url:"../../findUpdateInfo.action",
+										async:false,
+										data:id,
+										success:function(data){
+											params = data;
+										}
+									});
+									location.href = "promotion_update.html?id="+id;
+								}else{
+									
+								}
+
 							}
 						}, {
 							id: 'deleteBtn',
 							text: '作废',
 							iconCls: 'icon-cancel',
 							handler: function() {
-								alert('作废');
+								var selections = $("#grid").datagrid("getSelections");
+								if(selections.length > 0){
+									var dels = new Array();
+									for(var i=0; i<selections.length; i++){
+										dels.push(selections[i].id);
+									}
+									var ids = dels.join("-");
+									$.ajax({
+										type:"post",
+										url:"../../deletePromotions.action",
+										async:false,
+										data:{
+											"ids":ids
+										}
+									});
+									// 重新载入页面
+									$("#grid").datagrid("reload");
+								}else{
+									$.messager.alert("提示", "没有选择让你和记录！","warning");
+								}
+							
 							}
 						},{
 							id: 'saveBtn',

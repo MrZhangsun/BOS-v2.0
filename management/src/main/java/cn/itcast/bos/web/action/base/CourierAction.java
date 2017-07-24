@@ -27,7 +27,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import cn.itcast.bos.domain.base.Courier;
-import cn.itcast.bos.service.inter.CourierServiceInter;
+import cn.itcast.bos.service.base.inter.CourierServiceInter;
 
 /**
  * 员工模块表现层

@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl;
+package cn.itcast.bos.service.base.impl;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.bos.dao.inter.AreaRepository;
 import cn.itcast.bos.domain.base.Area;
-import cn.itcast.bos.service.inter.AreaServiceInter;
+import cn.itcast.bos.service.base.inter.AreaServiceInter;
 
 /**
  * 区域模块业务层接口实现类
@@ -28,7 +28,7 @@ public class AreaServiceImpl implements AreaServiceInter {
         private AreaRepository areaRepository;
         
         /**
-         * @see cn.itcast.bos.service.inter.AreaServiceInter#saveAreaInfo(ArrayList)
+         * @see cn.itcast.bos.service.base.inter.AreaServiceInter#saveAreaInfo(ArrayList)
          */
         @Override
         public void saveAreaInfo(ArrayList<Area> list) {
@@ -36,7 +36,7 @@ public class AreaServiceImpl implements AreaServiceInter {
         }
         
         /**
-         * @see cn.itcast.bos.service.inter.AreaServiceInter#pageQueryArea(Specification, Pageable)
+         * @see cn.itcast.bos.service.base.inter.AreaServiceInter#pageQueryArea(Specification, Pageable)
          */
         @Override
         public Page<Area> pageQueryArea(Specification<Area> specification, Pageable pageable) {
@@ -44,7 +44,7 @@ public class AreaServiceImpl implements AreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.AreaServiceInter#saveOrUpdateArea(Area)
+         * @see cn.itcast.bos.service.base.inter.AreaServiceInter#saveOrUpdateArea(Area)
          */
         @Override
         public void saveOrUpdateArea(Area area) {
@@ -52,7 +52,7 @@ public class AreaServiceImpl implements AreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.AreaServiceInter#findOne(String)
+         * @see cn.itcast.bos.service.base.inter.AreaServiceInter#findOne(String)
          */
         @Override
         public Area findOne(String id) {
@@ -60,7 +60,7 @@ public class AreaServiceImpl implements AreaServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.inter.AreaServiceInter#deleteArea(String[])
+         * @see cn.itcast.bos.service.base.inter.AreaServiceInter#deleteArea(String[])
          */
         @Override
         public void deleteArea(String[] del) {

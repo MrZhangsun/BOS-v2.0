@@ -64,11 +64,24 @@ public class PromotionServcieImpl implements PromotionServiceInter {
         }
 
         /**
-         * @see cn.itcast.bos.service.promotion.inter.PromotionServiceInter#updateStatus(DATE)
+         * @see cn.itcast.bos.service.promotion.inter.PromotionServiceInter#updateStatus(Date)
          */
         @Override
         public void updateStatus(Date now) {
                 System.out.println("促销日期更新");
                 promotionRepository.updateStatus(now);
+        }
+
+        /**
+         * @see cn.itcast.bos.service.promotion.inter.PromotionServiceInter#deletePromotions(String)
+         */
+        @Override
+        public void deletePromotions(String ids) {
+                if (ids != null) {
+                        String[] split = ids.split("-");
+                        for(String id : split) {
+                                promotionRepository.deletePromotion(Integer.parseInt(id));
+                        }
+                }
         }
 }

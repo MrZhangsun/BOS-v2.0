@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.inter;
+package cn.itcast.bos.service.base.inter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

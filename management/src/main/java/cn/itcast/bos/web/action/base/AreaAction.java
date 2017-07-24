@@ -26,7 +26,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionContext;
 import cn.itcast.bos.domain.base.Area;
-import cn.itcast.bos.service.inter.AreaServiceInter;
+import cn.itcast.bos.service.base.inter.AreaServiceInter;
 import cn.itcast.bos.util.PinYin4jUtils;
 import cn.itcast.bos.web.action.common.BaseAction;
 

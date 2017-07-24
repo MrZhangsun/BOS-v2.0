@@ -8,9 +8,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.itcast.bos.dao.inter.CourierRepository;
-import cn.itcast.bos.dao.inter.FixAreaReository;
-import cn.itcast.bos.dao.inter.TakeTimeRepository;
+import cn.itcast.bos.dao.base.inter.CourierRepository;
+import cn.itcast.bos.dao.base.inter.FixAreaReository;
+import cn.itcast.bos.dao.base.inter.TakeTimeRepository;
 import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.FixedArea;
 import cn.itcast.bos.domain.base.TakeTime;

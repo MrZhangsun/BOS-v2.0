@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.itcast.bos.dao.inter.SubAreaRepository;
+import cn.itcast.bos.dao.base.inter.SubAreaRepository;
 import cn.itcast.bos.domain.base.SubArea;
 import cn.itcast.bos.service.base.inter.SubAreaServiceInter;
 

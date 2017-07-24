@@ -1,4 +1,4 @@
-package cn.itcast.bos.dao.inter;
+package cn.itcast.bos.dao.base.inter;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import cn.itcast.bos.domain.base.Standard;

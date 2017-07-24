@@ -78,7 +78,7 @@ public class Login extends BaseAction<Customer> {
                 Customer customer;
                 if (article != null && "0".equals(article)) {
                         customer = WebClient
-                                        .create(Constant.CRM_MANAGEMENT_URL + "/userPasswordLogin?telephone="
+                                        .create(Constant.CRM_MANAGEMENT_URL + "/userService/userPasswordLogin?telephone="
                                                         + model.getUsername() + "&password=" + model.getPassword())
                                         .accept(MediaType.APPLICATION_JSON).get(Customer.class);
                         if (customer != null) {
@@ -101,7 +101,7 @@ public class Login extends BaseAction<Customer> {
                         }
                 } else {
                          customer = WebClient
-                                        .create(Constant.CRM_MANAGEMENT_URL + "/findByTelephone/"+model.getTelephone())
+                                        .create(Constant.CRM_MANAGEMENT_URL + "/userService/findByTelephone/"+model.getTelephone())
                                         .accept(MediaType.APPLICATION_JSON).get(Customer.class);
                          if (customer != null) {
                                  // 将用户的验证码存到session中去

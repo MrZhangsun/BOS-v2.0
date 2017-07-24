@@ -7,12 +7,13 @@
     <div class="col-md-10 procontent">
         <h5 class="title">${promotion.title}</h5>
         <div class="intro">
-            <p>${promotion.activeScope}</p>
-            <p>活动时间: ${promotion.startDate} - ${promotion.endDate}</p>
+            <p>活动范围: ${promotion.activeScope}</p>
+            <p>活动时间: ${promotion.startDate?string("yyyy-MM-dd")} - 
+                ${promotion.endDate?string("yyyy-MM-dd")}</p>
         </div>
         <div class="partline clearfix"></div>
         <div class="promotionbox">
-            <img src="${promotion.description}" width="800"/>
+            ${promotion.description}
         </div>
     </div>
 </div>

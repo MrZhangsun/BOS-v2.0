@@ -155,12 +155,12 @@ public class RegistAction  extends BaseAction<Customer>{
                 String redis_code = redisTemplate.opsForValue().get(model.getTelephone());
                 if (redis_code != null && activeCode.equals(redis_code)) {
                         // 查询邮箱是否已经绑定                                                                                         
-                        Customer customer = WebClient.create("http://localhost:8888/crm_management/service/userService/findByTelephone/"+model.getTelephone())
+                        Customer customer = WebClient.create(Constant.CRM_MANAGEMENT_URL+"/userService/findByTelephone/"+model.getTelephone())
                         .accept(MediaType.APPLICATION_JSON)
                         .get(Customer.class);
                         if (customer != null && customer.getType() == null) {
                                 // 进行邮箱绑定
-                                WebClient.create("http://localhost:8888/crm_management/service/userService/activeCustomer")
+                                WebClient.create(Constant.CRM_MANAGEMENT_URL+"/userService/activeCustomer")
                                 .put(model.getTelephone());
                         } else {
                                 // 重复绑定
@@ -191,7 +191,7 @@ public class RegistAction  extends BaseAction<Customer>{
                 String telephone = model.getTelephone();
                 if (telephone != null || telephone != "") {
                         HashMap<String, Integer> map = new HashMap<String, Integer>();
-                        Customer customer = WebClient.create(Constant.CRM_MANAGEMENT_URL+"/findByTelephone/"+telephone)
+                        Customer customer = WebClient.create(Constant.CRM_MANAGEMENT_URL+"/userService/findByTelephone/"+telephone)
                         .accept(MediaType.APPLICATION_JSON).get(Customer.class);
                         if (customer != null) {
                                map.put("result", 1);
